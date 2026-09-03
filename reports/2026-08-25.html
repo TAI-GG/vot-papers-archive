@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOT Weekly Report · 目标跟踪周报</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--primary:#0f766e;--primary-light:#14b8a6;--primary-bg:#f0fdfa;--accent:#0ea5e9;
+        --text:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--card-bg:#fff;--bg:#f8fafc}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);
+          border-bottom:1px solid var(--border)}
+  .header-inner{max-width:1080px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
+        display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0}
+  .header h1{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--accent));
+             -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .header-sub{font-size:12px;color:var(--text-secondary)}
+  .stats{display:flex;gap:18px;font-size:13px;color:var(--text-secondary)}
+  .stats strong{color:var(--text)}
+  .nav-bar{max-width:1080px;margin:0 auto;padding:10px 24px;display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--border)}
+  .nav-bar a{font-size:13px;font-weight:600;color:var(--text-secondary);text-decoration:none;padding:5px 14px;
+             border-radius:20px;background:#f1f5f9;transition:all .2s}
+  .nav-bar a:hover{color:var(--primary);background:var(--primary-bg)}
+  .nav-bar a.current{color:#fff;background:var(--primary)}
+  .container{max-width:1080px;margin:0 auto;padding:32px 24px}
+  .intro{background:var(--primary-bg);border:1px solid #ccfbf1;border-radius:12px;padding:18px 22px;margin-bottom:26px}
+  .intro p{font-size:14px;color:#134e4a;margin:4px 0}
+  h2{font-size:20px;margin:30px 0 14px;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px}
+  h3{font-size:16px;margin:22px 0 10px;color:var(--text)}
+  h4{font-size:14px;margin:16px 0 8px;color:var(--text-secondary)}
+  table.rpt-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:#fff;
+                  box-shadow:0 1px 3px rgba(0,0,0,.05);border-radius:10px;overflow:hidden}
+  table.rpt-table th,table.rpt-table td{border:1px solid var(--border);padding:9px 11px;text-align:left;vertical-align:top}
+  table.rpt-table th{background:var(--primary);color:#fff;font-weight:600}
+  table.rpt-table tr:nth-child(even){background:#f8fafc}
+  .paper{border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .paper h3{margin:0 0 6px}
+  .paper .meta{font-size:12px;color:var(--text-secondary);margin-bottom:8px}
+  .paper .meta a{color:var(--primary-light);text-decoration:none}
+  .summary-en{font-size:14px;color:var(--text);border-left:3px solid var(--accent);padding-left:12px;margin:8px 0}
+  .summary-cn{font-size:14px;color:#334155;border-left:3px solid var(--primary-light);padding-left:12px;margin:8px 0;background:#f0fdfa}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;
+         background:var(--primary-bg);color:var(--primary);margin-bottom:6px}
+  .footer{text-align:center;padding:36px 24px 50px;color:var(--text-secondary);font-size:13px;border-top:1px solid var(--border);margin-top:40px}
+  .footer a{color:var(--primary-light);text-decoration:none}
+  ul,ol{margin:8px 0 8px 22px}
+  blockquote{border-left:3px solid var(--primary);background:#f0fdfa;padding:8px 14px;margin:10px 0;color:#134e4a}
+  img{max-width:100%}
+  /* historical report timeline — main-site (CV) form */
+  .cover{text-align:center;margin:18px 0}
+  .cover img{max-width:420px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .theme-img{text-align:center;margin:10px 0 16px}
+  .theme-img img{max-width:100%;border-radius:10px}
+  .tl{position:relative;padding-left:42px;margin-top:8px}
+  .tl::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:#c7d2fe;border-radius:2px}
+  .tl-group{position:relative;margin-bottom:28px}
+  .tl-dot{position:absolute;left:-33px;top:4px;width:14px;height:14px;border-radius:50%;
+          background:#3b82f6;border:3px solid #fff;box-shadow:0 0 0 2px #3b82f6;z-index:2}
+  .tl-label{font-size:15px;font-weight:700;color:#1e40af;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .tl-label .mini-dot{width:8px;height:8px;border-radius:50%;background:#3b82f6}
+  .rcard{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px 22px;margin-bottom:14px;
+         box-shadow:0 1px 3px rgba(0,0,0,.06);opacity:0;transform:translateY(20px);
+         animation:fadeInUp .5s ease forwards;transition:all .3s ease}
+  .rcard:hover{box-shadow:0 10px 25px -5px rgba(0,0,0,.08);border-color:#3b82f6;transform:translateY(-2px)}
+  @keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}
+  .rcard-title{font-size:16px;font-weight:600;color:#1e293b;line-height:1.5;margin-bottom:4px}
+  .rcard-title a{color:inherit;text-decoration:none}
+  .rcard-title a:hover{color:#3b82f6}
+  .rcard-cn{font-size:14px;color:#475569;margin-bottom:8px}
+  .rcard-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:#64748b;margin-bottom:8px}
+  .rcard-badge{display:inline-flex;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;
+               background:#eff6ff;color:#1e40af;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rcard-sum{font-size:14px;color:#475569;line-height:1.7;margin-top:6px;padding-left:12px;border-left:3px solid #c7d2fe}
+  .rcard-sum.cn{border-left-color:#3b82f6;background:#f0fdfa}
+  .rcard-contrib{font-size:13px;color:#475569;margin:8px 0 0 18px}
+  .rcard-contrib li{margin:2px 0}
+  /* reports archive: content inlined, grouped by date */
+  .rpt-section{margin:8px 0}
+  .rpt-section-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;
+                    border-bottom:2px solid var(--primary);padding-bottom:6px;margin:30px 0 16px}
+  .rpt-section-head h2{margin:0;border:0;padding:0;color:var(--primary);font-size:19px}
+  .rpt-full{font-size:13px;font-weight:600;color:#fff;background:var(--primary);text-decoration:none;
+            padding:4px 14px;border-radius:20px;transition:all .2s;white-space:nowrap}
+  .rpt-full:hover{background:var(--accent)}
+  .rpt-sep{border:0;border-top:1px dashed var(--border);margin:34px 0}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="logo">&#x1F3A5;</div>
+      <div>
+        <h1>视觉目标跟踪 · 论文专栏</h1>
+        <div class="header-sub">Visual Object Tracking &middot; 中英双语论文档案</div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav-bar"><a href="../../index.html">主站·本周</a><a href="../../tracking/index.html" class="current">目标跟踪</a><a href="../../tracking/reports/index.html">历史报告</a></nav>
+</header>
+<div class="container">
+<div class='intro'><p><strong>Report Period / 报告周期：</strong>2026-08-18 ~ 2026-08-25</p><p><strong>Sources / 数据来源：</strong>arXiv (cs.CV) · Semantic Scholar (best-effort)</p><p><strong>Generated / 生成日期：</strong>2026-08-25</p></div><h2>Paper Summary Table / 论文汇总表</h2><table class='rpt-table'><thead><tr><th>No.</th><th>Title (EN)</th><th>Title (CN)</th><th>Authors</th><th>Source</th><th>Category</th><th>Link</th></tr></thead><tbody><tr><td>1</td><td>Multi-Modal Traffic Sign Detection with Semantic Attributes for Autonomous Driving</td><td>1&lt;/td&gt;&lt;td&gt;用于自动驾驶的具有语义属性的多模态交通标志检测</td><td>Meda Lazar, Sourab Sridhar, Shashwata Gupta, Alexandra Tripcea et al.</td><td>arXiv</td><td>Multi-Object Tracking / 多目标跟踪</td><td><a href='https://arxiv.org/abs/2608.20874' target='_blank' rel='noopener'>link</a></td></tr><tr><td>2</td><td>Nonlinear Model Predictive Control for Trajectory Tracking of Differentially Flat Fixed-Wing Aerial Systems</td><td>Meda Lazar、Sourab Sridhar、Shashwata Gupta、Alexandra Tripcea 等人&lt;/td&gt;&lt;td&gt;arXiv&lt;/td&gt;&lt;td&gt;多目标跟踪/多目标跟踪&lt;/td&gt;&lt;td&gt;&lt;a href=&#x27;https://arxiv.org/abs/2608.20874&#x27; target=&#x27;_blank&#x27; rel=&#x27;noopener&#x27;&gt;link&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;差动平面固定翼航空系统轨迹跟踪的非线性模型预测控制</td><td>Nishanth Bobbili, Pratyaksh Rao, Luca Morando, Luca Masci et al.</td><td>arXiv</td><td>Aerial / UAV Tracking / 无人机跟踪</td><td><a href='https://arxiv.org/abs/2608.20655' target='_blank' rel='noopener'>link</a></td></tr><tr><td>3</td><td>Key-Frame Reasoning with SAM3: Third Place Solution for the MeViS-Text Track of the 8th LSVOS Challenge</td><td>使用 SAM3 进行关键帧推理：第八届 LSVOS 挑战赛 MeViS-Text 赛道第三名解决方案</td><td>Ce Bian, Xusheng He, Jinrong Zhang, Canyang Wu et al.</td><td>arXiv</td><td>Multimodal Tracking / 多模态跟踪</td><td><a href='https://arxiv.org/abs/2608.17279' target='_blank' rel='noopener'>link</a></td></tr></tbody></table><h2>Detailed Papers by Topic / 按主题分组的论文详情</h2><h3>Topic 1: Multi-Object Tracking / 多目标跟踪</h3><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>Multi-Modal Traffic Sign Detection with Semantic Attributes for Autonomous Driving</h3><div class='meta'>Multi-Modal Traffic Sign Detection with Semantic Attributes for Autonomous Driving<br>arXiv: <a href='https://arxiv.org/abs/2608.20874' target='_blank' rel='noopener'>2608.20874</a> &middot; 2026-08-21 &middot; Meda Lazar, Sourab Sridhar, Shashwata Gupta, Alexandra Tripcea, Varun Ravi, Senthil Yogamani</div><div class='summary-en'><strong>[EN]</strong> Reliable traffic sign detection is a prerequisite for the global deployment of autonomous driving systems, where regulatory compliance and road safety depend on perceiving signs correctly across regions, ranges, and weather conditions. Despite recent progress, vision-based methods continue to face three fundamental limitations: poor cross-regional generalization due to high diversity across countries, degraded performance on small-object detection at long ranges (traffic signs occupy as little as $10{\times}10$ pixels at 200m), and fragile temporal tracking under the strongly non-linear perspective distortion that occurs as a vehicle approaches a sign. In this paper, we address the problem of robust, long-range, region-agnostic traffic sign perception by combining camera and Light Detection and Ranging (LiDAR) sensing. We present a multi-modal detection framework whose Intensity-Aware Deformable Fusion module aligns retro-reflective LiDAR cues with camera features, anchoring detection on geometric invariants rather than region-specific visual appearance. We further introduce a dual motion-model tracker that explicitly accounts for non-linear perspective transformations during vehicle approach, substantially improving temporal consistency over linear motion assumptions. Additionally, we develop a semantic attribute classification pipeline that estimates occlusion level, readabil</div><div class='summary-cn'><strong>[中文]</strong>可靠的交通标志检测是自动驾驶系统全球部署的先决条件，在这些系统中，监管合规性和道路安全取决于正确感知跨区域、范围和天气条件的标志。尽管最近取得了进展，但基于视觉的方法仍然面临三个基本局限性：由于各国的高度多样性，跨区域泛化能力差，远距离小物体检测性能下降（交通标志在200米处仅占$ 10 {\ times} 10 $像素） ，以及车辆接近标志时发生的强烈非线性透视失真下的脆弱时间跟踪。在本文中，我们通过相机和光探测与测距（ LiDAR ）传感相结合来解决鲁棒、远程、区域无关的交通标志感知问题。我们提出了一种多模态检测框架，其强度感知可变形融合模块将回射激光雷达提示与摄像机特征对齐，将检测锚定在几何不变量上，而不是特定区域的视觉外观上。我们进一步引入了一种双运动模型跟踪器，该跟踪器明确考虑了车辆进近过程中的非线性透视变换，大大提高了线性运动假设的时间一致性。此外，我们开发了一个语义属性分类管道，用于估计遮挡级别、可读性</div></div><h3>Topic 2: Aerial / UAV Tracking / 无人机跟踪</h3><div class='paper'><span class='badge'>Aerial / UAV Tracking / 无人机跟踪</span><h3>Nonlinear Model Predictive Control for Trajectory Tracking of Differentially Flat Fixed-Wing Aerial Systems</h3><div class='meta'>Nonlinear Model Predictive Control for Trajectory Tracking of Differentially Flat Fixed-Wing Aerial Systems<br>arXiv: <a href='https://arxiv.org/abs/2608.20655' target='_blank' rel='noopener'>2608.20655</a> &middot; 2026-08-21 &middot; Nishanth Bobbili, Pratyaksh Rao, Luca Morando, Luca Masci, Giuseppe Loianno</div><div class='summary-en'><strong>[EN]</strong> Planning and control of fixed-wing Unmanned Aerial Vehicles (UAVs) are challenging due to nonlinear dynamics, aerodynamic limits, and environmental disturbances. Differential flatness offers a principled way to generate fast, feasible trajectories, but its use has largely been confined to model-free controllers, which lack predictive capabilities and demand tuning. In this paper, we propose a unified framework that integrates differential flatness-based trajectory generation with Nonlinear Model Predictive Control (NMPC), combining computationally efficient planning with predictive, constraint-aware control. To further improve robustness, we introduce a wind-aware sampling strategy embedded within the NMPC framework, enabling the generation of dynamically feasible reference trajectories that proactively account for wind disturbances while strictly enforcing aerodynamic and control input constraints. We validate the proposed framework through extensive simulations and real-world flight experiments, demonstrating improved tracking accuracy and robustness for complex trajectories, particularly when using the proposed wind-aware sampling strategy under strong wind conditions.</div><div class='summary-cn'><strong>[中文]</strong>由于非线性动力学、空气动力学极限和环境干扰，固定翼无人机的规划和控制具有挑战性。差分平坦度提供了一种生成快速、可行轨迹的原则性方法，但其使用在很大程度上仅限于无模型控制器，这些控制器缺乏预测能力和需求调整。在本文中，我们提出了一种将基于差分平坦度的轨迹生成与非线性模型预测控制（ NMPC ）相结合的统一框架，将计算效率规划与预测、约束感知控制相结合。为了进一步提高鲁棒性，我们引入了嵌入在NMPC框架中的风感知采样策略，从而能够生成动态可行的参考轨迹，主动考虑风扰动，同时严格执行空气动力学和控制输入约束。我们通过广泛的模拟和实际飞行实验验证了所提出的框架，证明了复杂轨迹的跟踪精度和鲁棒性，特别是在强风条件下使用所提出的风感知采样策略时。</div></div><h3>Topic 3: Multimodal Tracking / 多模态跟踪</h3><div class='paper'><span class='badge'>Multimodal Tracking / 多模态跟踪</span><h3>Key-Frame Reasoning with SAM3: Third Place Solution for the MeViS-Text Track of the 8th LSVOS Challenge</h3><div class='meta'>使用 SAM3 进行关键帧推理：第八届 LSVOS 挑战赛 MeViS-Text 赛道第三名解决方案<br>arXiv: <a href='https://arxiv.org/abs/2608.17279' target='_blank' rel='noopener'>2608.17279</a> &middot; 2026-08-18 &middot; Ce Bian, Xusheng He, Jinrong Zhang, Canyang Wu, Xianjing Han, Jianlong Wu</div><div class='summary-en'><strong>[EN]</strong> This report presents a two-stage, training-free solution for the MeViS-Text track of the 8th LSVOS Challenge. The task requires a model to localize and segment the object specified by a natural-language expression throughout a video. Such expressions often depend on temporal cues, including actions, interactions, directions, and relative positions. Our first stage uses Gemini-3.1 Pro via API to decompose a video-level event into instance-level targets, select a key frame for each target, and generate a discriminative description aligned with that frame. In the second stage, SAM3-agent produces a pixel-level seed mask on the selected frame, and the SAM3 video tracker propagates the mask bidirectionally through the video. Valid instances are grounded and propagated independently before their frame-wise masks are merged. All local SAM3 processing runs on a single NVIDIA GeForce RTX 4090 without task-specific training or model ensembling. Our method ranked third on the challenge test set, obtaining J&amp;amp;F, J, F, N-acc., T-acc., and Final scores of 0.761, 0.7367, 0.7852, 0.8333, 0.9755, and 0.856593, respectively.</div><div class='summary-cn'><strong>[中文]</strong> 本报告为第八届 LSVOS 挑战赛的 MeViS-Text 赛道提供了一个两阶段、免训练的解决方案。该任务需要一个模型来本地化和分割整个视频中自然语言表达指定的对象。此类表达通常取决于时间线索，包括动作、交互、方向和相对位置。我们的第一阶段通过 API 使用 Gemini-3.1 Pro 将视频级事件分解为实例级目标，为每个目标选择一个关键帧，并生成与该帧对齐的判别性描述。在第二阶段，SAM3-agent 在所选帧上生成像素级种子掩码，SAM3 视频跟踪器在视频中双向传播该掩码。有效实例在其逐帧掩码合并之前独立接地和传播。所有本地 SAM3 处理都在单个 NVIDIA GeForce RTX 4090 上运行，无需特定于任务的训练或模型集成。我们的方法在挑战测试集上排名第三，获得的 J&amp;F、J、F、N-acc.、T-acc. 和 Final 分数分别为 0.761、0.7367、0.7852、0.8333、0.9755 和 0.856593。</div></div><h2>Category Distribution / 类别分布</h2><ul><li>Multi-Object Tracking / 多目标跟踪：1 篇</li><li>Aerial / UAV Tracking / 无人机跟踪：1 篇</li><li>Multimodal Tracking / 多模态跟踪：1 篇</li></ul>
+</div>
+<footer class="footer">
+  数据来源：arXiv API · Semantic Scholar (best-effort) &middot; 翻译：MyMemory &middot; 每日自动更新<br>
+  <a href="../../index.html">返回 CV 领域动态速览</a>
+</footer>
+</body>
+</html>

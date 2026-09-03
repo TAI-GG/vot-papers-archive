@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOT Daily Digest · 目标跟踪每日速览</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--primary:#0f766e;--primary-light:#14b8a6;--primary-bg:#f0fdfa;--accent:#0ea5e9;
+        --text:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--card-bg:#fff;--bg:#f8fafc}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);
+          border-bottom:1px solid var(--border)}
+  .header-inner{max-width:1080px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
+        display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0}
+  .header h1{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--accent));
+             -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .header-sub{font-size:12px;color:var(--text-secondary)}
+  .stats{display:flex;gap:18px;font-size:13px;color:var(--text-secondary)}
+  .stats strong{color:var(--text)}
+  .nav-bar{max-width:1080px;margin:0 auto;padding:10px 24px;display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--border)}
+  .nav-bar a{font-size:13px;font-weight:600;color:var(--text-secondary);text-decoration:none;padding:5px 14px;
+             border-radius:20px;background:#f1f5f9;transition:all .2s}
+  .nav-bar a:hover{color:var(--primary);background:var(--primary-bg)}
+  .nav-bar a.current{color:#fff;background:var(--primary)}
+  .container{max-width:1080px;margin:0 auto;padding:32px 24px}
+  .intro{background:var(--primary-bg);border:1px solid #ccfbf1;border-radius:12px;padding:18px 22px;margin-bottom:26px}
+  .intro p{font-size:14px;color:#134e4a;margin:4px 0}
+  h2{font-size:20px;margin:30px 0 14px;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px}
+  h3{font-size:16px;margin:22px 0 10px;color:var(--text)}
+  h4{font-size:14px;margin:16px 0 8px;color:var(--text-secondary)}
+  table.rpt-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:#fff;
+                  box-shadow:0 1px 3px rgba(0,0,0,.05);border-radius:10px;overflow:hidden}
+  table.rpt-table th,table.rpt-table td{border:1px solid var(--border);padding:9px 11px;text-align:left;vertical-align:top}
+  table.rpt-table th{background:var(--primary);color:#fff;font-weight:600}
+  table.rpt-table tr:nth-child(even){background:#f8fafc}
+  .paper{border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .paper h3{margin:0 0 6px}
+  .paper .meta{font-size:12px;color:var(--text-secondary);margin-bottom:8px}
+  .paper .meta a{color:var(--primary-light);text-decoration:none}
+  .summary-en{font-size:14px;color:var(--text);border-left:3px solid var(--accent);padding-left:12px;margin:8px 0}
+  .summary-cn{font-size:14px;color:#334155;border-left:3px solid var(--primary-light);padding-left:12px;margin:8px 0;background:#f0fdfa}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;
+         background:var(--primary-bg);color:var(--primary);margin-bottom:6px}
+  .footer{text-align:center;padding:36px 24px 50px;color:var(--text-secondary);font-size:13px;border-top:1px solid var(--border);margin-top:40px}
+  .footer a{color:var(--primary-light);text-decoration:none}
+  ul,ol{margin:8px 0 8px 22px}
+  blockquote{border-left:3px solid var(--primary);background:#f0fdfa;padding:8px 14px;margin:10px 0;color:#134e4a}
+  img{max-width:100%}
+  /* historical report timeline — main-site (CV) form */
+  .cover{text-align:center;margin:18px 0}
+  .cover img{max-width:420px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .theme-img{text-align:center;margin:10px 0 16px}
+  .theme-img img{max-width:100%;border-radius:10px}
+  .tl{position:relative;padding-left:42px;margin-top:8px}
+  .tl::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:#c7d2fe;border-radius:2px}
+  .tl-group{position:relative;margin-bottom:28px}
+  .tl-dot{position:absolute;left:-33px;top:4px;width:14px;height:14px;border-radius:50%;
+          background:#3b82f6;border:3px solid #fff;box-shadow:0 0 0 2px #3b82f6;z-index:2}
+  .tl-label{font-size:15px;font-weight:700;color:#1e40af;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .tl-label .mini-dot{width:8px;height:8px;border-radius:50%;background:#3b82f6}
+  .rcard{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px 22px;margin-bottom:14px;
+         box-shadow:0 1px 3px rgba(0,0,0,.06);opacity:0;transform:translateY(20px);
+         animation:fadeInUp .5s ease forwards;transition:all .3s ease}
+  .rcard:hover{box-shadow:0 10px 25px -5px rgba(0,0,0,.08);border-color:#3b82f6;transform:translateY(-2px)}
+  @keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}
+  .rcard-title{font-size:16px;font-weight:600;color:#1e293b;line-height:1.5;margin-bottom:4px}
+  .rcard-title a{color:inherit;text-decoration:none}
+  .rcard-title a:hover{color:#3b82f6}
+  .rcard-cn{font-size:14px;color:#475569;margin-bottom:8px}
+  .rcard-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:#64748b;margin-bottom:8px}
+  .rcard-badge{display:inline-flex;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;
+               background:#eff6ff;color:#1e40af;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rcard-sum{font-size:14px;color:#475569;line-height:1.7;margin-top:6px;padding-left:12px;border-left:3px solid #c7d2fe}
+  .rcard-sum.cn{border-left-color:#3b82f6;background:#f0fdfa}
+  .rcard-contrib{font-size:13px;color:#475569;margin:8px 0 0 18px}
+  .rcard-contrib li{margin:2px 0}
+  /* reports archive: content inlined, grouped by date */
+  .rpt-section{margin:8px 0}
+  .rpt-section-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;
+                    border-bottom:2px solid var(--primary);padding-bottom:6px;margin:30px 0 16px}
+  .rpt-section-head h2{margin:0;border:0;padding:0;color:var(--primary);font-size:19px}
+  .rpt-full{font-size:13px;font-weight:600;color:#fff;background:var(--primary);text-decoration:none;
+            padding:4px 14px;border-radius:20px;transition:all .2s;white-space:nowrap}
+  .rpt-full:hover{background:var(--accent)}
+  .rpt-sep{border:0;border-top:1px dashed var(--border);margin:34px 0}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="logo">&#x1F3A5;</div>
+      <div>
+        <h1>视觉目标跟踪 · 论文专栏</h1>
+        <div class="header-sub">Visual Object Tracking &middot; 中英双语论文档案</div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav-bar"><a href="../../index.html">主站·本周</a><a href="../../tracking/index.html" class="current">目标跟踪</a><a href="../../tracking/reports/index.html">历史报告</a></nav>
+</header>
+<div class="container">
+<div class='intro'><p><strong>Daily Digest / 每日速览：</strong>2026-07-24</p><p>当日新增视觉目标跟踪相关论文（来源：arXiv）。</p></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>GraphVid: Interactive Graph-Controllable Video Generation</h3><div class='meta'>GraphVid ：交互式图形可控视频生成<br><a href='https://arxiv.org/abs/2607.21580' target='_blank' rel='noopener'>2607.21580</a> &middot; 2026-07-23 &middot; Vedant Shah, Onkar Susladkar, Tushar Prakash, Kiet Nguyen, Tianjio Yu, Adheesh Juvekar</div><div class='summary-en'><strong>[EN]</strong> Controllable video generation remains challenging due to the difficulty of specifying precise multi-object interactions using text prompts or motion-control inputs that primarily constrain pixel movement. In practice, trajectory-based control often requires users to draw accurate tracks for multiple objects, which scales poorly with scene complexity and becomes ambiguous under occlusion or overlap. To enable flexible yet precise multi-subject control, we introduce $\textbf{GraphVid}$, a graph-conditioned image-to-video generation model that enables interactive control through structured interaction graphs. We further curate $\textbf{GraphVid-Bench}$, a large-scale interaction-centric video dataset with structured relational annotations to enable training of interaction-aware video generation models. Despite using substantially less training data and fewer trainable parameters than prior motion-control methods, GraphVid delivers strong controllability and video quality. Compared with Motion-I2V, GraphVid reduces FID by up to 39.9% and FVD by 37.6%, while improving PSNR (9.87=&amp;gt;15.98) and SSIM (0.38=&amp;gt;0.61). Our results highlight the potential of structured semantic interfaces as a powerful paradigm for controllable video generation.</div><div class='summary-cn'><strong>[中文]</strong>由于难以使用主要限制像素移动的文本提示或运动控制输入来指定精确的多对象交互，因此可控视频生成仍然具有挑战性。在实践中，基于轨迹的控制通常要求用户为多个对象绘制精确的轨迹，这些对象随着场景复杂性而缩放很差，并且在遮挡或重叠下变得模糊。为了实现灵活而精确的多主体控制，我们引入了$\ textbf {GraphVid} $ ，这是一种图形条件图像到视频生成模型，可通过结构化交互图实现交互式控制。我们进一步策划了$\ textbf {GraphVid-Bench} $ ，这是一个具有结构化关系注释的大规模交互中心视频数据集，用于训练交互感知视频生成模型。尽管与先前的运动控制方法相比， GraphVid使用的训练数据和可训练参数要少得多，但它提供了强大的可控性和视频质量。与Motion-I2V相比， GraphVid降低了高达39.9%的FID和37.6%的FVD ，同时提高了PSNR （ 9.87 = &amp;gt; 15.98 ）和SSIM （ 0.38 = &amp;gt; 0.61 ）。我们的研究结果突出了结构化语义界面作为可控视频生成的强大范例的潜力。</div></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>Incremental Optimal Assignment for Real-Time Crowd Tracking</h3><div class='meta'>实时人群跟踪的增量优化分配<br><a href='https://arxiv.org/abs/2607.21368' target='_blank' rel='noopener'>2607.21368</a> &middot; 2026-07-23 &middot; Ismail H. Toroslu</div><div class='summary-en'><strong>[EN]</strong> Multi-object tracking in dense crowds requires solving a bipartite assignment problem between detections and trajectories at every video frame. The classical Hungarian algorithm solves this in $O(N^3)$ time, which becomes a bottleneck for large scenes with hundreds of people. We propose an \emph{incremental} assignment algorithm that exploits the block-sparse structure of crowd tracking cost matrices --- dense within each crowd cluster, near-zero between clusters. We compute the exact same optimal $N \times N$ assignment as the Hungarian algorithm, but via an incremental strategy: we add one person at a time, exploiting the fact that after step $n-1$ the dual potentials are \emph{exactly optimal} for the $(n-1)\times(n-1)$ subproblem --- a strictly stronger condition than the intermediate feasibility maintained by the Hungarian algorithm during its $N$ outer iterations. Each new step therefore requires only a single augmenting path search from a certified optimal starting point. This avoids repeated full-matrix scans while guaranteeing an identical globally optimal result. A diagonal-reordering invariant keeps the data structure compact and cache-friendly. On realistic crowd benchmarks with $N \in [200, 5000]$ people organised into dense clusters, our algorithm achieves \textbf{3.7--6.5$\times$ speedup} over the Hungarian baseline while producing provably optimal matchings iden</div><div class='summary-cn'><strong>[中文]</strong>密集人群中的多对象跟踪需要解决每个视频帧的检测和轨迹之间的二分分配问题。经典的匈牙利算法在$ O (N ^ 3) $时间内解决了这个问题，这成为了拥有数百人的大场景的瓶颈。我们提出了一种\ emph {增量}分配算法，该算法利用了人群跟踪成本矩阵的块稀疏结构--在每个人群簇内密集，在簇之间接近零。我们计算与匈牙利算法完全相同的最优$ N\ times N $赋值，但通过一种增量策略：我们一次添加一个人，利用这样一个事实，即在步骤$ n-1 $之后， $ (n-1)\ times (n-1) $子问题的双势是\ emph {精确最优的} -比匈牙利算法在其$ N $外部迭代期间维持的中间可行性严格更强的条件。因此，每个新步骤只需要从认证的最佳起点进行一次增强路径搜索。这避免了重复的全矩阵扫描，同时保证了相同的全局最优结果。对角线重排不变量保持了数据结构的紧凑性和缓存友好性。在现实的人群基准上， [200,5000] $人中的$ N\人被组织成密集的集群，我们的算法在匈牙利基线上实现了\ textbf {3.7--6.5 $\ times $ speedup} ，同时产生了可证明的最佳匹配</div></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>Scalable Low-Cost Laboratory Automation: A Digital Twin-Integrated Robotic Platform for Autonomous Liquid Handling (RAINBOTTM)</h3><div class='meta'>可扩展的低成本实验室自动化：用于自主液体处理的数字双集成机器人平台（ RAINBOTTM ）<br><a href='https://arxiv.org/abs/2607.20662' target='_blank' rel='noopener'>2607.20662</a> &middot; 2026-07-22 &middot; Mohamed Rami Ayeche, Souhil Sid, Ahyen Mostofa, Rehaan Hussain, Ali Shayesteh, Fadwa El Mellouhi</div><div class='summary-en'><strong>[EN]</strong> Laboratory automation accelerates discovery, yet its adoption is constrained by the high cost, proprietary design, and limited remote supervisability of commercial liquid-handling systems. This work presents RAINBOT\textsuperscript{TM}, a low-cost, openly reproducible liquid-handling robot built by converting a consumer-grade Cartesian 3D printer (Elegoo Neptune 4 Max). The printer extruder is replaced by a precision single-channel pipette actuated through the printer&#x27;s own G-code-driven X--Y--Z gantry, with plunger and tip-eject motions effected by two compact linear actuators under Python control. To make experiments transparent and remotely supervisable, a browser-based digital twin is implemented to synchronise bidirectionally with the physical platform, mirroring kinematics and pipetting states in real time and exposing remote monitoring, intervention, and an emergency stop from any web browser. As a proof of concept, RAINBOT\textsuperscript{TM} performed sequential exchanges of differently coloured aqueous solutions while an integrated colour sensor quantified the resulting mixtures; measured red, yellow, and blue (RYB) responses agreed with expected mixing behaviour to within a mean absolute error of two percentage points, validating correct execution and real-time tracking. Closing the loop, the platform is coupled to the CEID\textsuperscript{TM} (Cooperative Explorer f</div><div class='summary-cn'><strong>[中文]</strong>实验室自动化加速了发现，但其采用受到商用液体处理系统的高成本、专有设计和有限的远程监控的限制。这项工作展示了RAINBOT\ textsuperscript {TM} ，这是一种通过转换消费级笛卡尔3D打印机（ Elegoo Neptune 4 Max ）构建的低成本、可公开再现的液体处理机器人。打印机挤出机由精密的单通道移液管代替，该移液管通过打印机自己的G代码驱动的X-Y-Z机架驱动，柱塞和顶端弹出运动由Python控制下的两个紧凑型线性执行器实现。为了使实验透明且可远程监控，实现了基于浏览器的数字孪生，以与物理平台双向同步，实时镜像运动学和移液状态，并暴露任何Web浏览器的远程监控、干预和紧急停止。作为概念验证， RAINBOT\ textsuperscript {TM}执行了不同颜色水溶液的顺序交换，同时集成的颜色传感器量化了所得混合物；测量的红色、黄色和蓝色（ RYB ）响应与预期混合行为一致，平均绝对误差在两个百分点以内，验证了正确的执行和实时跟踪。关闭循环，平台耦合到CEID\ textsuperscript {TM} （协作资源管理器</div></div><div class='paper'><span class='badge'>Multimodal Tracking / 多模态跟踪</span><h3>DRGBT-1K: A Large-scale High-quality Benchmark for Dynamic RGBT Tracking</h3><div class='meta'>DRGBT-1K：动态 RGBT 跟踪的大规模高质量基准<br><a href='https://arxiv.org/abs/2607.19772' target='_blank' rel='noopener'>2607.19772</a> &middot; 2026-07-22 &middot; Zhaodong Ding, Chenglong Li, Zeyu Ding, Futian Wang, Jin Tang</div><div class='summary-en'><strong>[EN]</strong> Dynamic RGBT (DRGBT) tracking aims to continuously localize a target when the available sensing modalities and observation platforms vary over time. Compared with conventional RGBT tracking with fixed RGBT inputs and a fixed observation platform, DRGBT tracking is more consistent with real-world collaborative perception systems, where targets may be observed by heterogeneous sensors from different viewpoints. However, existing benchmarks are still insufficient for systematically evaluating tracker robustness under real dynamic modality variations and cross-platform transitions. To address this limitation, we make the following contributions. 1) We construct DRGBT-1K, a large-scale high-quality benchmark for DRGBT tracking. It contains 1,045 sequences captured entirely in real-world scenarios and 795K RGBT frame pairs collected using UAVs and handheld RGBT devices, encompassing diverse real-world scenes, pronounced viewpoint changes, modality variations, and target appearance discontinuities. 2) We provide comprehensive annotations for fine-grained evaluation, including dense bounding boxes, target category labels, challenge attributes, frame-level modality labels and platform labels. DRGBT-1K covers 24 target categories, more than 15 scene types and 15 challenge attributes. 3) We establish a comprehensive benchmark by evaluating 20 representative multimodal tracking methods, in</div><div class='summary-cn'><strong>[中文]</strong> 动态 RGBT (DRGBT) 跟踪旨在当可用的传感方式和观察平台随时间变化时持续定位目标。与具有固定RGBT输入和固定观察平台的传统RGBT跟踪相比，DRGBT跟踪更符合现实世界的协作感知系统，其中目标可以通过异构传感器从不同的角度观察。然而，现有的基准仍然不足以系统地评估真实动态模态变化和跨平台转换下跟踪器的鲁棒性。为了解决这个限制，我们做出了以下贡献。 1）我们构建了DRGBT-1K，一个用于DRGBT跟踪的大规模高质量基准。它包含完全在现实世界场景中捕获的 1,045 个序列以及使用无人机和手持式 RGBT 设备收集的 795K RGBT 帧对，涵盖不同的现实世界场景、明显的视点变化、模态变化和目标外观中断</div></div>
+</div>
+<footer class="footer">
+  数据来源：arXiv API &middot; 翻译：MyMemory &middot; 每日自动更新<br>
+  <a href="../../index.html">返回 CV 领域动态速览</a>
+</footer>
+</body>
+</html>
