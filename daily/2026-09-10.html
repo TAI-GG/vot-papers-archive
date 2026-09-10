@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOT Daily Digest · 目标跟踪每日速览</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--primary:#0f766e;--primary-light:#14b8a6;--primary-bg:#f0fdfa;--accent:#0ea5e9;
+        --text:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--card-bg:#fff;--bg:#f8fafc}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);
+          border-bottom:1px solid var(--border)}
+  .header-inner{max-width:1080px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
+        display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0}
+  .header h1{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--accent));
+             -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .header-sub{font-size:12px;color:var(--text-secondary)}
+  .stats{display:flex;gap:18px;font-size:13px;color:var(--text-secondary)}
+  .stats strong{color:var(--text)}
+  .nav-bar{max-width:1080px;margin:0 auto;padding:10px 24px;display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--border)}
+  .nav-bar a{font-size:13px;font-weight:600;color:var(--text-secondary);text-decoration:none;padding:5px 14px;
+             border-radius:20px;background:#f1f5f9;transition:all .2s}
+  .nav-bar a:hover{color:var(--primary);background:var(--primary-bg)}
+  .nav-bar a.current{color:#fff;background:var(--primary)}
+  .container{max-width:1080px;margin:0 auto;padding:32px 24px}
+  .intro{background:var(--primary-bg);border:1px solid #ccfbf1;border-radius:12px;padding:18px 22px;margin-bottom:26px}
+  .intro p{font-size:14px;color:#134e4a;margin:4px 0}
+  h2{font-size:20px;margin:30px 0 14px;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px}
+  h3{font-size:16px;margin:22px 0 10px;color:var(--text)}
+  h4{font-size:14px;margin:16px 0 8px;color:var(--text-secondary)}
+  table.rpt-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:#fff;
+                  box-shadow:0 1px 3px rgba(0,0,0,.05);border-radius:10px;overflow:hidden}
+  table.rpt-table th,table.rpt-table td{border:1px solid var(--border);padding:9px 11px;text-align:left;vertical-align:top}
+  table.rpt-table th{background:var(--primary);color:#fff;font-weight:600}
+  table.rpt-table tr:nth-child(even){background:#f8fafc}
+  .paper{border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .paper h3{margin:0 0 6px}
+  .paper .meta{font-size:12px;color:var(--text-secondary);margin-bottom:8px}
+  .paper .meta a{color:var(--primary-light);text-decoration:none}
+  .summary-en{font-size:14px;color:var(--text);border-left:3px solid var(--accent);padding-left:12px;margin:8px 0}
+  .summary-cn{font-size:14px;color:#334155;border-left:3px solid var(--primary-light);padding-left:12px;margin:8px 0;background:#f0fdfa}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;
+         background:var(--primary-bg);color:var(--primary);margin-bottom:6px}
+  .footer{text-align:center;padding:36px 24px 50px;color:var(--text-secondary);font-size:13px;border-top:1px solid var(--border);margin-top:40px}
+  .footer a{color:var(--primary-light);text-decoration:none}
+  ul,ol{margin:8px 0 8px 22px}
+  blockquote{border-left:3px solid var(--primary);background:#f0fdfa;padding:8px 14px;margin:10px 0;color:#134e4a}
+  img{max-width:100%}
+  /* historical report timeline — main-site (CV) form */
+  .cover{text-align:center;margin:18px 0}
+  .cover img{max-width:420px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .theme-img{text-align:center;margin:10px 0 16px}
+  .theme-img img{max-width:100%;border-radius:10px}
+  .tl{position:relative;padding-left:42px;margin-top:8px}
+  .tl::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:#c7d2fe;border-radius:2px}
+  .tl-group{position:relative;margin-bottom:28px}
+  .tl-dot{position:absolute;left:-33px;top:4px;width:14px;height:14px;border-radius:50%;
+          background:#3b82f6;border:3px solid #fff;box-shadow:0 0 0 2px #3b82f6;z-index:2}
+  .tl-label{font-size:15px;font-weight:700;color:#1e40af;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .tl-label .mini-dot{width:8px;height:8px;border-radius:50%;background:#3b82f6}
+  .rcard{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px 22px;margin-bottom:14px;
+         box-shadow:0 1px 3px rgba(0,0,0,.06);opacity:0;transform:translateY(20px);
+         animation:fadeInUp .5s ease forwards;transition:all .3s ease}
+  .rcard:hover{box-shadow:0 10px 25px -5px rgba(0,0,0,.08);border-color:#3b82f6;transform:translateY(-2px)}
+  @keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}
+  .rcard-title{font-size:16px;font-weight:600;color:#1e293b;line-height:1.5;margin-bottom:4px}
+  .rcard-title a{color:inherit;text-decoration:none}
+  .rcard-title a:hover{color:#3b82f6}
+  .rcard-cn{font-size:14px;color:#475569;margin-bottom:8px}
+  .rcard-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:#64748b;margin-bottom:8px}
+  .rcard-badge{display:inline-flex;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;
+               background:#eff6ff;color:#1e40af;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rcard-sum{font-size:14px;color:#475569;line-height:1.7;margin-top:6px;padding-left:12px;border-left:3px solid #c7d2fe}
+  .rcard-sum.cn{border-left-color:#3b82f6;background:#f0fdfa}
+  .rcard-contrib{font-size:13px;color:#475569;margin:8px 0 0 18px}
+  .rcard-contrib li{margin:2px 0}
+  /* reports archive: content inlined, grouped by date */
+  .rpt-section{margin:8px 0}
+  .rpt-section-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;
+                    border-bottom:2px solid var(--primary);padding-bottom:6px;margin:30px 0 16px}
+  .rpt-section-head h2{margin:0;border:0;padding:0;color:var(--primary);font-size:19px}
+  .rpt-full{font-size:13px;font-weight:600;color:#fff;background:var(--primary);text-decoration:none;
+            padding:4px 14px;border-radius:20px;transition:all .2s;white-space:nowrap}
+  .rpt-full:hover{background:var(--accent)}
+  .rpt-sep{border:0;border-top:1px dashed var(--border);margin:34px 0}
+  .idx-list{list-style:none;padding:0;margin:12px 0;display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+  .idx-list li{border:1px solid var(--border);border-radius:10px;background:#fff;padding:10px 14px;
+               display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .idx-list a{font-weight:600;color:var(--primary);text-decoration:none}
+  .idx-list a:hover{text-decoration:underline}
+  .idx-n{font-size:12px;color:var(--text-secondary);white-space:nowrap}
+  .notice{border-left:4px solid #f59e0b;background:#fffbeb;border-radius:8px;
+          padding:12px 16px;margin:16px 0;color:#92400e;font-size:14px;line-height:1.7}
+  .notice.err{border-left-color:#ef4444;background:#fef2f2;color:#991b1b}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="logo">&#x1F3A5;</div>
+      <div>
+        <h1>视觉目标跟踪 · 论文专栏</h1>
+        <div class="header-sub">Visual Object Tracking &middot; 中英双语论文档案</div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav-bar"><a href="https://TAI-GG.github.io/cv-papers-archive/">主站·本周</a><a href="../index.html" class="current">目标跟踪</a><a href="../reports/index.html">历史报告</a><a href="../daily/index.html">归档索引</a></nav>
+</header>
+<div class="container">
+<div class='intro'><p><strong>Daily Digest / 每日速览：</strong>2026-09-10</p><p>当日新增视觉目标跟踪相关论文（来源：arXiv）。</p></div><div class='notice'><strong>注</strong>：Semantic Scholar 本次不可用（HTTP Error 429: ），本期仅含 arXiv 数据（该源为 best-effort，不影响完整性）。</div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>Point4D: Long-range 4D Motion Reconstruction</h3><div class='meta'>Point4D：远程 4D 运动重建<br><a href='https://arxiv.org/abs/2609.09145' target='_blank' rel='noopener'>2609.09145</a> &middot; 2026-09-08 &middot; Minsik Jeon, Jay Karhade, Deva Ramanan, Shubham Tulsiani</div><div class='summary-en'><strong>[EN]</strong> We introduce Point4D, a feed-forward model for 4D reconstruction of long-range video sequences. Point4D is able to reliably infer dense per-point 3D trajectories across multi-hundred-frame videos, unlike existing 4D methods that are limited to short input windows of at most a few dozen frames. A key innovation that enables this is our flexible 3D query-based motion decoder that decouples trajectory prediction from image-plane visibility. The predicted 3D endpoints are then directly re-queried in the next chunk without re-projection or matching. Furthermore, we show that extracting and reusing a visual descriptor from an arbitrary frame where the point is visible leads to better performance than relying solely on the source patch. Overall, Point4D achieves state-of-the-art performance across diverse long-video tracking benchmarks spanning over 200 frames and largely outperforms previous feed-forward 4D method. Project page: https://point-4d.github.io</div><div class='summary-cn'><strong>[中文]</strong> 我们引入了 Point4D，一种用于长距离视频序列 4D 重建的前馈模型。 Point4D 能够可靠地推断数百帧视频中的密集每点 3D 轨迹，这与仅限于最多几十帧的短输入窗口的现有 4D 方法不同。实现这一目标的一项关键创新是我们灵活的基于 3D 查询的运动解码器，它将轨迹预测与图像平面可见性分离。然后，在下一个块中直接重新查询预测的 3D 端点，而无需重新投影或匹配。此外，我们还表明，从点可见的任意帧中提取和重用视觉描述符比仅依赖源补丁可以获得更好的性能。总体而言，Point4D 在跨越 200 帧的各种长视频跟踪基准测试中实现了最先进的性能，并且在很大程度上优于以前的前馈 4D 方法。项目页面：https://point-4d.github.io</div></div><div class='paper'><span class='badge'>General Tracking / 通用跟踪</span><h3>A Distributed Consensus Particle Filter for Target Tracking using Autonomous Surface Vessels</h3><div class='meta'>使用自主水面舰艇进行目标跟踪的分布式一致性粒子滤波器<br><a href='https://arxiv.org/abs/2609.09066' target='_blank' rel='noopener'>2609.09066</a> &middot; 2026-09-08 &middot; Carter Noh, Kyle Crandall, Connor Yates, Corbin Wilhelmi</div><div class='summary-en'><strong>[EN]</strong> Maritime target tracking over large distances often requires multi-agent teams without centralized coordination, and intermittent communication. Each agent must maintain an independent estimate that can take advantage of opportunistic communications availability when possible. This can lead to overly confident local estimates in the absence of external data. In this work, we propose an augmentation to a classical particle filter implementation that accounts for this potential source of error by forcing particles to spread strategically in the absence of informative updates from other sensor nodes. We demonstrate our method using Unmanned Surface Vessels (USVs) on a lake, and show that our augmentations do not deteriorate nominal performance, and provide an advantage in some specific edge cases.</div><div class='summary-cn'><strong>[中文]</strong> 远距离海上目标跟踪通常需要多智能体团队，没有集中协调和间歇性通信。每个代理必须保持独立的估计，以便在可能的情况下利用机会通信的可用性。在缺乏外部数据的情况下，这可能会导致局部估计过于自信。在这项工作中，我们提出了对经典粒子过滤器实现的增强，该实现通过强制粒子在没有来自其他传感器节点的信息更新的情况下策略性地传播来解决这种潜在的错误源。我们在湖上使用无人水面舰艇 (USV) 演示了我们的方法，并表明我们的增强不会降低名义性能，并在某些特定的边缘情况下提供优势。</div></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>A Multi-Modal Perception Pipeline for Object Detection and Tracking in Autonomous Racing</h3><div class='meta'>用于自动赛车中物体检测和跟踪的多模态感知管道<br><a href='https://arxiv.org/abs/2609.08338' target='_blank' rel='noopener'>2609.08338</a> &middot; 2026-09-08 &middot; Davide Malvezzi, Michele Pestarino, Vittoria Cavicchioli, Valentina La Gamba, Silvia Severi, Fabio Bagni</div><div class='summary-en'><strong>[EN]</strong> Object detection and tracking are fundamental components of perception systems for autonomous driving. Achieving robust performance under adverse conditions such as limited visibility, sensor noise, and failures remains an open challenge, particularly in autonomous racing, where vehicles operate at very high speeds, experience strong vibrations, and interact under small safety margins. This paper presents a multi-modal late-fusion perception pipeline for object detection and tracking in the autonomous racing domain. The proposed system extends previous work by exploiting all onboard sensors through a late-fusion approach and a dedicated multi-object tracking framework. Independent detections from cameras, LiDARs, and RADARs are combined to provide timely and robust state estimates of surrounding vehicles. The tracking method explicitly compensates for detection delays and embeds in its model prior knowledge of vehicle dynamics and track layout. Experimental evaluation on real-world data across diverse critical scenarios, representative of challenging edge cases also in urban driving, confirms the effectiveness of the proposed pipeline and its suitability to support safe and adaptive planning decisions.</div><div class='summary-cn'><strong>[中文]</strong> 物体检测和跟踪是自动驾驶感知系统的基本组成部分。在能见度有限、传感器噪音和故障等不利条件下实现稳健的性能仍然是一个开放的挑战，特别是在自动驾驶赛车中，车辆以非常高的速度运行，经历强烈的振动，并且在较小的安全裕度下相互作用。本文提出了一种用于自动驾驶赛车领域中的物体检测和跟踪的多模态后期融合感知管道。所提出的系统通过后期融合方法和专用的多目标跟踪框架利用所有机载传感器来扩展之前的工作。来自摄像头、激光雷达和雷达的独立检测相结合，可以对周围车辆提供及时、可靠的状态估计。该跟踪方法明确地补偿了检测延迟，并将车辆动力学和轨道布局的先验知识嵌入到其模型中。对不同关键场景的真实世界数据进行实验评估，代表城市驾驶中具有挑战性的边缘情况，证实了所提出的管道的有效性及其支持安全和自适应规划决策的适用性。</div></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>Tracking-by-detection in Multi-object Tracking: Survey and Experiments</h3><div class='meta'>多目标跟踪中的检测跟踪：调查和实验<br><a href='https://arxiv.org/abs/2609.08265' target='_blank' rel='noopener'>2609.08265</a> &middot; 2026-09-08 &middot; Yujin Yang, Kyujin Shim, Kangwook Ko, Changick Kim</div><div class='summary-en'><strong>[EN]</strong> Multi-object tracking (MOT) is an essential computer vision task that simultaneously tracks multiple objects in video sequences, with various applications in surveillance, autonomous navigation, and human-computer interaction. The tracking-by-detection (TBD) paradigm, which combines object detection with temporal association, has emerged as a leading approach, driven by innovative algorithms. Despite recent progress, fair evaluation of TBD-based methods remains a challenge. Many studies introduce modules such as similarity metrics, data association strategies, or motion models, but they are often evaluated under inconsistent protocols, with different baseline trackers, hyperparameters, and datasets. Such inconsistencies obscure the genuine contribution of each module and hinder objective comparison. This survey systematically reviews TBD-based MOT techniques, including similarity measurements, data association, camera motion compensation, and interpolation strategies. Starting from a minimal baseline tracker, we fairly evaluate the contributions of each method across diverse datasets and accumulate well-balanced methods. Our findings establish a strong baseline tracker and provide a foundation for the principled design of robust and versatile MOT systems suitable for real-world deployment.</div><div class='summary-cn'><strong>[中文]</strong> 多目标跟踪（MOT）是一项重要的计算机视觉任务，可同时跟踪视频序列中的多个目标，在监控、自主导航和人机交互等领域具有多种应用。在创新算法的推动下，检测跟踪 (TBD) 范例将对象检测与时间关联相结合，已成为一种领先方法。尽管最近取得了进展，但对基于 TBD 的方法进行公平评估仍然是一个挑战。许多研究引入了相似性度量、数据关联策略或运动模型等模块，但它们通常在不一致的协议下使用不同的基线跟踪器、超参数和数据集进行评估。这种不一致掩盖了每个模块的真正贡献并阻碍了客观比较。本次调查系统回顾了基于 TBD 的 MOT 技术，包括相似性测量、数据关联、相机运动补偿和插值策略。从最小的基线跟踪器开始，我们公平地评估每种方法在不同数据集上的贡献，并积累均衡的方法。我们的研究结果建立了强大的基线跟踪器，并为适合实际部署的稳健且多功能的 MOT 系统的原则设计奠定了基础。</div></div>
+</div>
+<footer class="footer">
+  数据来源：arXiv API &middot; 翻译：MyMemory &middot; 每日自动更新<br>
+  <a href="https://TAI-GG.github.io/cv-papers-archive/">返回 AI 资讯档案库（主站）</a>
+</footer>
+</body>
+</html>
