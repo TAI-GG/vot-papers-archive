@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOT Daily Digest · 目标跟踪每日速览</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--primary:#0f766e;--primary-light:#14b8a6;--primary-bg:#f0fdfa;--accent:#0ea5e9;
+        --text:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--card-bg:#fff;--bg:#f8fafc}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);
+          border-bottom:1px solid var(--border)}
+  .header-inner{max-width:1080px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
+        display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0}
+  .header h1{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--accent));
+             -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .header-sub{font-size:12px;color:var(--text-secondary)}
+  .stats{display:flex;gap:18px;font-size:13px;color:var(--text-secondary)}
+  .stats strong{color:var(--text)}
+  .nav-bar{max-width:1080px;margin:0 auto;padding:10px 24px;display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--border)}
+  .nav-bar a{font-size:13px;font-weight:600;color:var(--text-secondary);text-decoration:none;padding:5px 14px;
+             border-radius:20px;background:#f1f5f9;transition:all .2s}
+  .nav-bar a:hover{color:var(--primary);background:var(--primary-bg)}
+  .nav-bar a.current{color:#fff;background:var(--primary)}
+  .container{max-width:1080px;margin:0 auto;padding:32px 24px}
+  .intro{background:var(--primary-bg);border:1px solid #ccfbf1;border-radius:12px;padding:18px 22px;margin-bottom:26px}
+  .intro p{font-size:14px;color:#134e4a;margin:4px 0}
+  h2{font-size:20px;margin:30px 0 14px;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px}
+  h3{font-size:16px;margin:22px 0 10px;color:var(--text)}
+  h4{font-size:14px;margin:16px 0 8px;color:var(--text-secondary)}
+  table.rpt-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:#fff;
+                  box-shadow:0 1px 3px rgba(0,0,0,.05);border-radius:10px;overflow:hidden}
+  table.rpt-table th,table.rpt-table td{border:1px solid var(--border);padding:9px 11px;text-align:left;vertical-align:top}
+  table.rpt-table th{background:var(--primary);color:#fff;font-weight:600}
+  table.rpt-table tr:nth-child(even){background:#f8fafc}
+  .paper{border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .paper h3{margin:0 0 6px}
+  .paper .meta{font-size:12px;color:var(--text-secondary);margin-bottom:8px}
+  .paper .meta a{color:var(--primary-light);text-decoration:none}
+  .summary-en{font-size:14px;color:var(--text);border-left:3px solid var(--accent);padding-left:12px;margin:8px 0}
+  .summary-cn{font-size:14px;color:#334155;border-left:3px solid var(--primary-light);padding-left:12px;margin:8px 0;background:#f0fdfa}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;
+         background:var(--primary-bg);color:var(--primary);margin-bottom:6px}
+  .footer{text-align:center;padding:36px 24px 50px;color:var(--text-secondary);font-size:13px;border-top:1px solid var(--border);margin-top:40px}
+  .footer a{color:var(--primary-light);text-decoration:none}
+  ul,ol{margin:8px 0 8px 22px}
+  blockquote{border-left:3px solid var(--primary);background:#f0fdfa;padding:8px 14px;margin:10px 0;color:#134e4a}
+  img{max-width:100%}
+  /* historical report timeline — main-site (CV) form */
+  .cover{text-align:center;margin:18px 0}
+  .cover img{max-width:420px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .theme-img{text-align:center;margin:10px 0 16px}
+  .theme-img img{max-width:100%;border-radius:10px}
+  .tl{position:relative;padding-left:42px;margin-top:8px}
+  .tl::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:#c7d2fe;border-radius:2px}
+  .tl-group{position:relative;margin-bottom:28px}
+  .tl-dot{position:absolute;left:-33px;top:4px;width:14px;height:14px;border-radius:50%;
+          background:#3b82f6;border:3px solid #fff;box-shadow:0 0 0 2px #3b82f6;z-index:2}
+  .tl-label{font-size:15px;font-weight:700;color:#1e40af;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .tl-label .mini-dot{width:8px;height:8px;border-radius:50%;background:#3b82f6}
+  .rcard{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px 22px;margin-bottom:14px;
+         box-shadow:0 1px 3px rgba(0,0,0,.06);opacity:0;transform:translateY(20px);
+         animation:fadeInUp .5s ease forwards;transition:all .3s ease}
+  .rcard:hover{box-shadow:0 10px 25px -5px rgba(0,0,0,.08);border-color:#3b82f6;transform:translateY(-2px)}
+  @keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}
+  .rcard-title{font-size:16px;font-weight:600;color:#1e293b;line-height:1.5;margin-bottom:4px}
+  .rcard-title a{color:inherit;text-decoration:none}
+  .rcard-title a:hover{color:#3b82f6}
+  .rcard-cn{font-size:14px;color:#475569;margin-bottom:8px}
+  .rcard-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:#64748b;margin-bottom:8px}
+  .rcard-badge{display:inline-flex;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;
+               background:#eff6ff;color:#1e40af;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rcard-sum{font-size:14px;color:#475569;line-height:1.7;margin-top:6px;padding-left:12px;border-left:3px solid #c7d2fe}
+  .rcard-sum.cn{border-left-color:#3b82f6;background:#f0fdfa}
+  .rcard-contrib{font-size:13px;color:#475569;margin:8px 0 0 18px}
+  .rcard-contrib li{margin:2px 0}
+  /* reports archive: content inlined, grouped by date */
+  .rpt-section{margin:8px 0}
+  .rpt-section-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;
+                    border-bottom:2px solid var(--primary);padding-bottom:6px;margin:30px 0 16px}
+  .rpt-section-head h2{margin:0;border:0;padding:0;color:var(--primary);font-size:19px}
+  .rpt-full{font-size:13px;font-weight:600;color:#fff;background:var(--primary);text-decoration:none;
+            padding:4px 14px;border-radius:20px;transition:all .2s;white-space:nowrap}
+  .rpt-full:hover{background:var(--accent)}
+  .rpt-sep{border:0;border-top:1px dashed var(--border);margin:34px 0}
+  .idx-list{list-style:none;padding:0;margin:12px 0;display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+  .idx-list li{border:1px solid var(--border);border-radius:10px;background:#fff;padding:10px 14px;
+               display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .idx-list a{font-weight:600;color:var(--primary);text-decoration:none}
+  .idx-list a:hover{text-decoration:underline}
+  .idx-n{font-size:12px;color:var(--text-secondary);white-space:nowrap}
+  .notice{border-left:4px solid #f59e0b;background:#fffbeb;border-radius:8px;
+          padding:12px 16px;margin:16px 0;color:#92400e;font-size:14px;line-height:1.7}
+  .notice.err{border-left-color:#ef4444;background:#fef2f2;color:#991b1b}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="logo">&#x1F3A5;</div>
+      <div>
+        <h1>视觉目标跟踪 · 论文专栏</h1>
+        <div class="header-sub">Visual Object Tracking &middot; 中英双语论文档案</div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav-bar"><a href="https://TAI-GG.github.io/cv-papers-archive/">主站·本周</a><a href="../index.html" class="current">目标跟踪</a><a href="../reports/index.html">历史报告</a><a href="../daily/index.html">归档索引</a></nav>
+</header>
+<div class="container">
+<div class='intro'><p><strong>Daily Digest / 每日速览：</strong>2026-09-30</p><p>当日新增视觉目标跟踪相关论文（来源：arXiv）。</p></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>OPIS: An Input-Grounded Benchmark for Multi-Object Memory in Video World Models</h3><div class='meta'>OPIS：视频世界模型中多对象记忆的输入接地基准<br><a href='https://arxiv.org/abs/2609.35052' target='_blank' rel='noopener'>2609.35052</a> &middot; 2026-09-28 &middot; Hao Wang, Tao Yu, Liuzhou Zhang, HeXin Wang, Haopeng Jin, Yuxuan Zhou</div><div class='summary-en'><strong>[EN]</strong> Video world models must preserve the visual state of the world over time, but existing evaluation protocols often rely on generated histories, video reference, or selected revisit viewpoints that can confound the assessment of a model&#x27;s true memory capability. To address this, we introduce OPIS, an input-grounded benchmark that strictly anchors the assessment to a fixed set of object instances from the initial observation for evaluating multi-object memory in video world models. The OPIS dataset comprises 500 cases across real-world, embodied-robotic, and game-world domains, providing dense object-level annotations for 12,672 rigid, articulated, and deformable instances. Our object-centric evaluator combines association and explicit visibility reasoning to hierarchically measure Object (O) Presence (P), Identity (I), and Structure (S), utilizing static or dynamic evaluation tracks based on object kinematics. Across eight image-to-video or camera-conditioned world models, our proposed OPIS scores range from 48.65 to 56.01. As the reference inventory grows from less than 20 to more than 40 objects, the Presence, Identity, and Structure scores show an overall decline, with the average Identity score falling from 40.22 to 23.11. The results demonstrate that preserving the particular object instances in the input is considerably harder than generating plausible visual elements.</div><div class='summary-cn'><strong>[中文]</strong> 视频世界模型必须随着时间的推移保留世界的视觉状态，但现有的评估协议通常依赖于生成的历史、视频参考或选定的重访视点，这些可能会混淆模型真实记忆能力的评估。为了解决这个问题，我们引入了 OPIS，这是一种基于输入的基准，它将评估严格锚定到来自初始观察的一组固定的对象实例，以评估视频世界模型中的多对象记忆。 OPIS 数据集包含现实世界、实体机器人和游戏世界领域的 500 个案例，为 12,672 个刚性、铰接和可变形实例提供密集的对象级注释。我们以对象为中心的评估器结合了关联和显式可见性推理，利用基于对象运动学的静态或动态评估轨迹，分层测量对象 (O) 存在 (P)、身份 (I) 和结构 (S)。在八个图像到视频或相机调节的世界模型中，我们提出的 OPIS 分数范围为 48.65 到 56.01。随着参考库存从不足 20 个对象增长到超过 40 个对象，存在性、身份和结构得分整体下降，平均身份得分从 40.22 下降到 23.11。结果表明，保留输入中的特定对象实例比生成合理的视觉元素要困难得多。</div></div><div class='paper'><span class='badge'>Domain Adaptation &amp; Robust / 域自适应与鲁棒</span><h3>HyperDAM: Hyperspectral Distractor-Aware Memory with Amodal Expansion for SAM 3 Tracking</h3><div class='meta'>HyperDAM：具有用于 SAM 3 跟踪的 Amodal 扩展的高光谱干扰感知存储器<br><a href='https://arxiv.org/abs/2609.34396' target='_blank' rel='noopener'>2609.34396</a> &middot; 2026-09-28 &middot; Ryoga Yuzawa, Tasuku Takagi</div><div class='summary-en'><strong>[EN]</strong> Hyperspectral video provides material cues that can disambiguate targets with similar false-color appearance, yet foundation-model trackers update memory primarily from spatial and appearance evidence. We present HyperDAM, a DAM4SAM3-based hyperspectral tracker with three principal contributions. First, HOTC2026-Modal adds human-verified frame-wise modal masks and mask-tight boxes to all 481 organizer-provided HOTC 2026 videos. Second, a frame-zero-calibrated HSI gate rejects spectrally inconsistent updates to the distractor-resolving memory (DRM) without altering the current prediction. Third, a causal spatiotemporal expander adds outward-only amodal corrections from frozen SAM features. Static-scene recovery and empty-mask RTS smoothing address target switches and full occlusion. Model selection prioritizes cross-domain robustness over leaderboard-specific optimization. The final system ranked second in HOTC 2026, achieving 68.0093% AUC and 87.7703% DP@20 in the organizer&#x27;s private evaluation.</div><div class='summary-cn'><strong>[中文]</strong> 高光谱视频提供的材料线索可以消除具有相似假色外观的目标的歧义，而基础模型跟踪器主要根据空间和外观证据来更新记忆。我们推出了 HyperDAM，这是一种基于 DAM4SAM3 的高光谱跟踪器，具有三个主要贡献。首先，HOTC2026-Modal 为组织者提供的所有 481 个 HOTC 2026 视频添加了经过人工验证的逐帧模态掩模和掩模密封框。其次，零帧校准的 HSI 门会拒绝对干扰分辨存储器 (DRM) 进行光谱不一致的更新，而不改变当前的预测。第三，因果时空扩展器根据冻结的 SAM 特征添加仅向外的非模态校正。静态场景恢复和空遮罩 RTS 平滑处理目标切换和完全遮挡。模型选择优先考虑跨域稳健性而不是排行榜特定的优化。最终系统在 HOTC 2026 中排名第二，在组织者的私人评估中获得了 68.0093% AUC 和 87.7703% DP@20。</div></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>VastMAT: A Large-Scale Multi-Category Benchmark for Multi-Animal Tracking</h3><div class='meta'>VastMAT：多动物跟踪的大规模多类别基准<br><a href='https://arxiv.org/abs/2609.34390' target='_blank' rel='noopener'>2609.34390</a> &middot; 2026-09-28 &middot; Zhizhen Li, Zan Wang, Huidong Peng, Bohan Tan, Shimin Shan, Yu Liu</div><div class='summary-en'><strong>[EN]</strong> Multi-animal tracking (MAT) supports the study of animal movement, behavior, and group interactions. However, general multi-object tracking (MOT) benchmarks primarily focus on pedestrians and vehicles, whereas dedicated MAT benchmarks remain limited in jointly supporting broad animal coverage, large-scale video data, and extensive within-video multi-instance association. To address this gap, we introduce VastMAT, which has four key characteristics: (1) Large scale. It comprises 2,947 videos with 1,002,562 annotated frames, totaling 27.85 hours. (2) Broad category coverage. These videos cover 337 animal categories with diverse morphologies and motion patterns. (3) Extensive instance annotations. It provides 3,663,248 bounding boxes and 22,883 identity trajectories---to our knowledge, the largest numbers of both among dedicated MAT benchmarks. (4) High-quality annotations. To ensure reliability, annotations undergo iterative expert review and correction, and quality is assessed through an independent reannotation audit. To systematically assess tracking performance and cross-category generalization, we establish Seen-category and category-disjoint Unseen-category protocols, and evaluate eight representative MOT methods under both protocols. Under these protocols, the highest baseline HOTA scores are 66.37\% and 52.90\%, respectively, highlighting the challenge of tracking unseen </div><div class='summary-cn'><strong>[中文]</strong> 多动物追踪 (MAT) 支持动物运动、行为和群体互动的研究。然而，通用的多目标跟踪（MOT）基准主要关注行人和车辆，而专用的 MAT 基准在共同支持广泛的动物覆盖、大规模视频数据和广泛的视频内多实例关联方面仍然有限。为了解决这一差距，我们引入了 VastMAT，它具有四个关键特征：（1）大规模。它包含 2,947 个视频，1,002,562 个带注释的帧，总计 27.85 小时。 （二）品类覆盖面广。这些视频涵盖了 337 个动物类别，具有不同的形态和运动模式。 (3) 丰富的实例注释。它提供了 3,663,248 个边界框和 22,883 个身份轨迹——据我们所知，这是专用 MAT 基准中数量最多的。 (4)高质量的注释。为了确保可靠性，注释经过专家反复审查和纠正，并通过独立的重新注释审核来评估质量。为了系统地评估跟踪性能和跨类别泛化，我们建立了 Seen-category 和类别不相交 Unseen-category 协议，并在这两种协议下评估了八种代表性的 MOT 方法。在这些协议下，最高基线 HOTA 分数分别为 66.37\% 和 52.90\%，凸显了跟踪看不见的挑战</div></div>
+</div>
+<footer class="footer">
+  数据来源：arXiv API &middot; 翻译：MyMemory &middot; 每日自动更新<br>
+  <a href="https://TAI-GG.github.io/cv-papers-archive/">返回 AI 资讯档案库（主站）</a>
+</footer>
+</body>
+</html>
