@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOT Daily Digest · 目标跟踪每日速览</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--primary:#0f766e;--primary-light:#14b8a6;--primary-bg:#f0fdfa;--accent:#0ea5e9;
+        --text:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--card-bg:#fff;--bg:#f8fafc}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);
+          border-bottom:1px solid var(--border)}
+  .header-inner{max-width:1080px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
+        display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0}
+  .header h1{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--accent));
+             -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .header-sub{font-size:12px;color:var(--text-secondary)}
+  .stats{display:flex;gap:18px;font-size:13px;color:var(--text-secondary)}
+  .stats strong{color:var(--text)}
+  .nav-bar{max-width:1080px;margin:0 auto;padding:10px 24px;display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--border)}
+  .nav-bar a{font-size:13px;font-weight:600;color:var(--text-secondary);text-decoration:none;padding:5px 14px;
+             border-radius:20px;background:#f1f5f9;transition:all .2s}
+  .nav-bar a:hover{color:var(--primary);background:var(--primary-bg)}
+  .nav-bar a.current{color:#fff;background:var(--primary)}
+  .container{max-width:1080px;margin:0 auto;padding:32px 24px}
+  .intro{background:var(--primary-bg);border:1px solid #ccfbf1;border-radius:12px;padding:18px 22px;margin-bottom:26px}
+  .intro p{font-size:14px;color:#134e4a;margin:4px 0}
+  h2{font-size:20px;margin:30px 0 14px;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px}
+  h3{font-size:16px;margin:22px 0 10px;color:var(--text)}
+  h4{font-size:14px;margin:16px 0 8px;color:var(--text-secondary)}
+  table.rpt-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:#fff;
+                  box-shadow:0 1px 3px rgba(0,0,0,.05);border-radius:10px;overflow:hidden}
+  table.rpt-table th,table.rpt-table td{border:1px solid var(--border);padding:9px 11px;text-align:left;vertical-align:top}
+  table.rpt-table th{background:var(--primary);color:#fff;font-weight:600}
+  table.rpt-table tr:nth-child(even){background:#f8fafc}
+  .paper{border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .paper h3{margin:0 0 6px}
+  .paper .meta{font-size:12px;color:var(--text-secondary);margin-bottom:8px}
+  .paper .meta a{color:var(--primary-light);text-decoration:none}
+  .summary-en{font-size:14px;color:var(--text);border-left:3px solid var(--accent);padding-left:12px;margin:8px 0}
+  .summary-cn{font-size:14px;color:#334155;border-left:3px solid var(--primary-light);padding-left:12px;margin:8px 0;background:#f0fdfa}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;
+         background:var(--primary-bg);color:var(--primary);margin-bottom:6px}
+  .footer{text-align:center;padding:36px 24px 50px;color:var(--text-secondary);font-size:13px;border-top:1px solid var(--border);margin-top:40px}
+  .footer a{color:var(--primary-light);text-decoration:none}
+  ul,ol{margin:8px 0 8px 22px}
+  blockquote{border-left:3px solid var(--primary);background:#f0fdfa;padding:8px 14px;margin:10px 0;color:#134e4a}
+  img{max-width:100%}
+  /* historical report timeline — main-site (CV) form */
+  .cover{text-align:center;margin:18px 0}
+  .cover img{max-width:420px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .theme-img{text-align:center;margin:10px 0 16px}
+  .theme-img img{max-width:100%;border-radius:10px}
+  .tl{position:relative;padding-left:42px;margin-top:8px}
+  .tl::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:#c7d2fe;border-radius:2px}
+  .tl-group{position:relative;margin-bottom:28px}
+  .tl-dot{position:absolute;left:-33px;top:4px;width:14px;height:14px;border-radius:50%;
+          background:#3b82f6;border:3px solid #fff;box-shadow:0 0 0 2px #3b82f6;z-index:2}
+  .tl-label{font-size:15px;font-weight:700;color:#1e40af;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .tl-label .mini-dot{width:8px;height:8px;border-radius:50%;background:#3b82f6}
+  .rcard{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px 22px;margin-bottom:14px;
+         box-shadow:0 1px 3px rgba(0,0,0,.06);opacity:0;transform:translateY(20px);
+         animation:fadeInUp .5s ease forwards;transition:all .3s ease}
+  .rcard:hover{box-shadow:0 10px 25px -5px rgba(0,0,0,.08);border-color:#3b82f6;transform:translateY(-2px)}
+  @keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}
+  .rcard-title{font-size:16px;font-weight:600;color:#1e293b;line-height:1.5;margin-bottom:4px}
+  .rcard-title a{color:inherit;text-decoration:none}
+  .rcard-title a:hover{color:#3b82f6}
+  .rcard-cn{font-size:14px;color:#475569;margin-bottom:8px}
+  .rcard-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:#64748b;margin-bottom:8px}
+  .rcard-badge{display:inline-flex;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;
+               background:#eff6ff;color:#1e40af;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rcard-sum{font-size:14px;color:#475569;line-height:1.7;margin-top:6px;padding-left:12px;border-left:3px solid #c7d2fe}
+  .rcard-sum.cn{border-left-color:#3b82f6;background:#f0fdfa}
+  .rcard-contrib{font-size:13px;color:#475569;margin:8px 0 0 18px}
+  .rcard-contrib li{margin:2px 0}
+  /* reports archive: content inlined, grouped by date */
+  .rpt-section{margin:8px 0}
+  .rpt-section-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;
+                    border-bottom:2px solid var(--primary);padding-bottom:6px;margin:30px 0 16px}
+  .rpt-section-head h2{margin:0;border:0;padding:0;color:var(--primary);font-size:19px}
+  .rpt-full{font-size:13px;font-weight:600;color:#fff;background:var(--primary);text-decoration:none;
+            padding:4px 14px;border-radius:20px;transition:all .2s;white-space:nowrap}
+  .rpt-full:hover{background:var(--accent)}
+  .rpt-sep{border:0;border-top:1px dashed var(--border);margin:34px 0}
+  .idx-list{list-style:none;padding:0;margin:12px 0;display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+  .idx-list li{border:1px solid var(--border);border-radius:10px;background:#fff;padding:10px 14px;
+               display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .idx-list a{font-weight:600;color:var(--primary);text-decoration:none}
+  .idx-list a:hover{text-decoration:underline}
+  .idx-n{font-size:12px;color:var(--text-secondary);white-space:nowrap}
+  .notice{border-left:4px solid #f59e0b;background:#fffbeb;border-radius:8px;
+          padding:12px 16px;margin:16px 0;color:#92400e;font-size:14px;line-height:1.7}
+  .notice.err{border-left-color:#ef4444;background:#fef2f2;color:#991b1b}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="logo">&#x1F3A5;</div>
+      <div>
+        <h1>视觉目标跟踪 · 论文专栏</h1>
+        <div class="header-sub">Visual Object Tracking &middot; 中英双语论文档案</div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav-bar"><a href="https://TAI-GG.github.io/cv-papers-archive/">主站·本周</a><a href="../index.html" class="current">目标跟踪</a><a href="../reports/index.html">历史报告</a><a href="../daily/index.html">归档索引</a></nav>
+</header>
+<div class="container">
+<div class='intro'><p><strong>Daily Digest / 每日速览：</strong>2026-10-02</p><p>当日新增视觉目标跟踪相关论文（来源：arXiv）。</p></div><div class='notice'><strong>注</strong>：Semantic Scholar 本次不可用（HTTP Error 429: ），本期仅含 arXiv 数据（该源为 best-effort，不影响完整性）。</div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>DyRAD: Radar Novel View Synthesis for Dynamic Driving Scenes</h3><div class='meta'>DyRAD：动态驾驶场景的雷达新颖视图合成<br><a href='https://arxiv.org/abs/2609.39841' target='_blank' rel='noopener'>2609.39841</a> &middot; 2026-09-30 &middot; Merav Keidar, Tomer Borreda, Rajalakshmi Nandakumar, Or Litany</div><div class='summary-en'><strong>[EN]</strong> Reconstructing dynamic driving scenes from recorded sensor data supports closed-loop evaluation of autonomous driving systems by synthesizing observations beyond the original trajectory. Unlike cameras and LiDAR, radar measures radial velocity directly through Doppler. Yet existing radar novel-view synthesis fails to exploit this capability: methods addressing dynamic scenes reconstruct only range-azimuth tensors, while methods that render Doppler assume static scenes. Moreover, because radar processing spreads each reflection across multiple bins, existing representations absorb this spread into scene geometry, causing it to render incorrectly when the viewpoint moves. We present DyRAD, which models dynamic driving scenes using static background reflectors and motion-tracked dynamic point reflectors to render complete range-azimuth-Doppler (RAD) tensors. Reflector velocities are derived from object tracks and projected onto the line of sight, making Doppler both a rendered output and supervision for those tracks. Crucially, we render reflectors through a fixed analytic point-spread function (PSF) derived from the radar&#x27;s signal-processing chain, preventing sensor-induced spread from being baked into the scene representation. Beyond improving scene reconstruction, this separation also enables zero-shot sensor-configuration transfer, allowing the same reconstructed scene to be r</div><div class='summary-cn'><strong>[中文]</strong> 根据记录的传感器数据重建动态驾驶场景，通过综合超出原始轨迹的观察结果，支持自动驾驶系统的闭环评估。与摄像机和激光雷达不同，雷达直接通过多普勒测量径向速度。然而，现有的雷达新颖视图合成未能利用这种能力：处理动态场景的方法仅重建距离-方位角张量，而渲染多普勒的方法假设静态场景。此外，由于雷达处理将每个反射分散到多个容器中，现有的表示将这种分散吸收到场景几何中，导致在视点移动时渲染不正确。我们提出了 DyRAD，它使用静态背景反射器和运动跟踪动态点反射器对动态驾驶场景进行建模，以渲染完整的距离方位多普勒 (RAD) 张量。反射器速度源自物体轨迹并投射到视线上，使多普勒既是这些轨迹的渲染输出又是监督。至关重要的是，我们通过源自雷达信号处理链的固定分析点扩散函数（PSF）来渲染反射器，从而防止传感器引起的扩散被烘焙到场景表示中。除了改进场景重建之外，这种分离还可以实现零样本传感器配置传输，从而允许相同的重建场景</div></div><div class='paper'><span class='badge'>Dataset &amp; Benchmark / 数据集与基准</span><h3>P-SRM: Selective Recovery of Rejected Predictions in Visual Tracking</h3><div class='meta'>P-SRM：视觉跟踪中拒绝预测的选择性恢复<br><a href='https://arxiv.org/abs/2609.39832' target='_blank' rel='noopener'>2609.39832</a> &middot; 2026-09-30 &middot; Youbin He, Siwei Wang</div><div class='summary-en'><strong>[EN]</strong> Many visual tracking methods use rejection mechanisms to suppress unreliable predictions. However, these mechanisms can also reject correctly localized candidates, leaving useful information unused. We investigate how to identify and recover these candidates while preserving native accepted outputs and candidate coordinates. To this end, we propose P-SRM (Post-rejection Selective Recovery Method), which combines spatial responses, past accepted states, and native decision margins to reassess candidates and selectively restore reliable predictions. We evaluate P-SRM on six trackers and four datasets spanning category-specific, point, and generic object tracking. Across all nine configurations, P-SRM improves rejected-candidate ranking and overall tracking performance. These results show that post-rejection verification can identify and recover useful predictions discarded by native rejection, demonstrating the value of reusing rejected information. Project repository: https://github.com/PalestyHR/P-SRM.</div><div class='summary-cn'><strong>[中文]</strong> 许多视觉跟踪方法使用拒绝机制来抑制不可靠的预测。然而，这些机制也可能拒绝正确本地化的候选者，从而使有用的信息未被使用。我们研究如何识别和恢复这些候选者，同时保留本地接受的输出和候选者坐标。为此，我们提出了 P-SRM（拒绝后选择性恢复方法），它结合了空间响应、过去接受的状态和本机决策裕度来重新评估候选者并选择性地恢复可靠的预测。我们在六个跟踪器和四个数据集上评估 P-SRM，涵盖特定类别、点和通用对象跟踪。在所有九种配置中，P-SRM 提高了被拒绝的候选者排名和整体跟踪性能。这些结果表明，拒绝后验证可以识别并恢复被本机拒绝丢弃的有用预测，证明了重用被拒绝信息的价值。项目存储库：https://github.com/PalestyHR/P-SRM。</div></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>Towards Agile Vision-Based Multi-UAV Flight: Revisiting State Estimation</h3><div class='meta'>迈向基于敏捷视觉的多无人机飞行：重新审视状态估计<br><a href='https://arxiv.org/abs/2609.39611' target='_blank' rel='noopener'>2609.39611</a> &middot; 2026-09-30 &middot; Michal Pliska, Matouš Vrba, Ondřej Víta, Martin Jiroušek, Viktor Walter, Martin Saska</div><div class='summary-en'><strong>[EN]</strong> Agile multi-UAV flight requires accurate and low-latency onboard estimation of the kinematic states of neighboring UAVs for collision avoidance, motion coordination, etc. Most vision-based approaches rely on position-only measurements, inferring velocity and acceleration indirectly from displacement. We show that this introduces a fixed structural delay in the estimation of higher-order states, which limits the achievable agility. To address this, we propose to integrate tilt measurements, provided by a state-of-the-art visual detector, which inform about the thrust direction of co-planar multirotor UAVs. We benchmark four position-only and five pose-aware estimators, including a novel formulation of a linear thrust-constraining Kalman filter, on two real-world and one high-fidelity photorealistic simulated dataset over different levels of agility (3-21 m/s^2). In our setup, pose-aware estimation consistently reduces the average velocity and acceleration estimation errors by 40% and 57% across the three datasets with the proposed KF formulation outperforming the other estimators. Position-only filters exhibit a constant ~300 ms delay in acceleration step response independent of agility, whereas the tilt-constrained estimators operate near the physical response limit given by the camera frame-rate by observing the change in thrust direction before the displacement accumulates. I</div><div class='summary-cn'><strong>[中文]</strong> 敏捷的多无人机飞行需要对相邻无人机的运动学状态进行准确且低延迟的机载估计，以防止碰撞、运动协调等。大多数基于视觉的方法依赖于仅位置测量，从位移间接推断速度和加速度。我们表明，这在高阶状态的估计中引入了固定的结构延迟，这限制了可实现的敏捷性。为了解决这个问题，我们建议集成由最先进的视觉探测器提供的倾斜测量，该测量可告知共面多旋翼无人机的推力方向。我们在不同敏捷级别 (3-21 m/s^2) 的两个真实世界和一个高保真真实感模拟数据集上对四个仅位置估计器和五个姿势感知估计器（包括线性推力约束卡尔曼滤波器的新颖公式）进行了基准测试。在我们的设置中，姿态感知估计在三个数据集中始终将平均速度和加速度估计误差减少了 40% 和 57%，并且所提出的 KF 公式优于其他估计器。仅位置滤波器在与敏捷性无关的加速度阶跃响应中表现出约 300 毫秒的恒定延迟，而倾斜约束估计器通过观察位移累积之前推力方向的变化，在相机帧速率给出的物理响应极限附近运行。我</div></div>
+</div>
+<footer class="footer">
+  数据来源：arXiv API &middot; 翻译：MyMemory &middot; 每日自动更新<br>
+  <a href="https://TAI-GG.github.io/cv-papers-archive/">返回 AI 资讯档案库（主站）</a>
+</footer>
+</body>
+</html>
