@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOT Daily Digest · 目标跟踪每日速览</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--primary:#0f766e;--primary-light:#14b8a6;--primary-bg:#f0fdfa;--accent:#0ea5e9;
+        --text:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--card-bg:#fff;--bg:#f8fafc}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);
+          border-bottom:1px solid var(--border)}
+  .header-inner{max-width:1080px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
+        display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0}
+  .header h1{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--accent));
+             -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .header-sub{font-size:12px;color:var(--text-secondary)}
+  .stats{display:flex;gap:18px;font-size:13px;color:var(--text-secondary)}
+  .stats strong{color:var(--text)}
+  .nav-bar{max-width:1080px;margin:0 auto;padding:10px 24px;display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--border)}
+  .nav-bar a{font-size:13px;font-weight:600;color:var(--text-secondary);text-decoration:none;padding:5px 14px;
+             border-radius:20px;background:#f1f5f9;transition:all .2s}
+  .nav-bar a:hover{color:var(--primary);background:var(--primary-bg)}
+  .nav-bar a.current{color:#fff;background:var(--primary)}
+  .container{max-width:1080px;margin:0 auto;padding:32px 24px}
+  .intro{background:var(--primary-bg);border:1px solid #ccfbf1;border-radius:12px;padding:18px 22px;margin-bottom:26px}
+  .intro p{font-size:14px;color:#134e4a;margin:4px 0}
+  h2{font-size:20px;margin:30px 0 14px;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px}
+  h3{font-size:16px;margin:22px 0 10px;color:var(--text)}
+  h4{font-size:14px;margin:16px 0 8px;color:var(--text-secondary)}
+  table.rpt-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:#fff;
+                  box-shadow:0 1px 3px rgba(0,0,0,.05);border-radius:10px;overflow:hidden}
+  table.rpt-table th,table.rpt-table td{border:1px solid var(--border);padding:9px 11px;text-align:left;vertical-align:top}
+  table.rpt-table th{background:var(--primary);color:#fff;font-weight:600}
+  table.rpt-table tr:nth-child(even){background:#f8fafc}
+  .paper{border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .paper h3{margin:0 0 6px}
+  .paper .meta{font-size:12px;color:var(--text-secondary);margin-bottom:8px}
+  .paper .meta a{color:var(--primary-light);text-decoration:none}
+  .summary-en{font-size:14px;color:var(--text);border-left:3px solid var(--accent);padding-left:12px;margin:8px 0}
+  .summary-cn{font-size:14px;color:#334155;border-left:3px solid var(--primary-light);padding-left:12px;margin:8px 0;background:#f0fdfa}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;
+         background:var(--primary-bg);color:var(--primary);margin-bottom:6px}
+  .footer{text-align:center;padding:36px 24px 50px;color:var(--text-secondary);font-size:13px;border-top:1px solid var(--border);margin-top:40px}
+  .footer a{color:var(--primary-light);text-decoration:none}
+  ul,ol{margin:8px 0 8px 22px}
+  blockquote{border-left:3px solid var(--primary);background:#f0fdfa;padding:8px 14px;margin:10px 0;color:#134e4a}
+  img{max-width:100%}
+  /* historical report timeline — main-site (CV) form */
+  .cover{text-align:center;margin:18px 0}
+  .cover img{max-width:420px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .theme-img{text-align:center;margin:10px 0 16px}
+  .theme-img img{max-width:100%;border-radius:10px}
+  .tl{position:relative;padding-left:42px;margin-top:8px}
+  .tl::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:#c7d2fe;border-radius:2px}
+  .tl-group{position:relative;margin-bottom:28px}
+  .tl-dot{position:absolute;left:-33px;top:4px;width:14px;height:14px;border-radius:50%;
+          background:#3b82f6;border:3px solid #fff;box-shadow:0 0 0 2px #3b82f6;z-index:2}
+  .tl-label{font-size:15px;font-weight:700;color:#1e40af;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .tl-label .mini-dot{width:8px;height:8px;border-radius:50%;background:#3b82f6}
+  .rcard{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px 22px;margin-bottom:14px;
+         box-shadow:0 1px 3px rgba(0,0,0,.06);opacity:0;transform:translateY(20px);
+         animation:fadeInUp .5s ease forwards;transition:all .3s ease}
+  .rcard:hover{box-shadow:0 10px 25px -5px rgba(0,0,0,.08);border-color:#3b82f6;transform:translateY(-2px)}
+  @keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}
+  .rcard-title{font-size:16px;font-weight:600;color:#1e293b;line-height:1.5;margin-bottom:4px}
+  .rcard-title a{color:inherit;text-decoration:none}
+  .rcard-title a:hover{color:#3b82f6}
+  .rcard-cn{font-size:14px;color:#475569;margin-bottom:8px}
+  .rcard-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:#64748b;margin-bottom:8px}
+  .rcard-badge{display:inline-flex;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;
+               background:#eff6ff;color:#1e40af;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rcard-sum{font-size:14px;color:#475569;line-height:1.7;margin-top:6px;padding-left:12px;border-left:3px solid #c7d2fe}
+  .rcard-sum.cn{border-left-color:#3b82f6;background:#f0fdfa}
+  .rcard-contrib{font-size:13px;color:#475569;margin:8px 0 0 18px}
+  .rcard-contrib li{margin:2px 0}
+  /* reports archive: content inlined, grouped by date */
+  .rpt-section{margin:8px 0}
+  .rpt-section-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;
+                    border-bottom:2px solid var(--primary);padding-bottom:6px;margin:30px 0 16px}
+  .rpt-section-head h2{margin:0;border:0;padding:0;color:var(--primary);font-size:19px}
+  .rpt-full{font-size:13px;font-weight:600;color:#fff;background:var(--primary);text-decoration:none;
+            padding:4px 14px;border-radius:20px;transition:all .2s;white-space:nowrap}
+  .rpt-full:hover{background:var(--accent)}
+  .rpt-sep{border:0;border-top:1px dashed var(--border);margin:34px 0}
+  .idx-list{list-style:none;padding:0;margin:12px 0;display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+  .idx-list li{border:1px solid var(--border);border-radius:10px;background:#fff;padding:10px 14px;
+               display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .idx-list a{font-weight:600;color:var(--primary);text-decoration:none}
+  .idx-list a:hover{text-decoration:underline}
+  .idx-n{font-size:12px;color:var(--text-secondary);white-space:nowrap}
+  .notice{border-left:4px solid #f59e0b;background:#fffbeb;border-radius:8px;
+          padding:12px 16px;margin:16px 0;color:#92400e;font-size:14px;line-height:1.7}
+  .notice.err{border-left-color:#ef4444;background:#fef2f2;color:#991b1b}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="logo">&#x1F3A5;</div>
+      <div>
+        <h1>视觉目标跟踪 · 论文专栏</h1>
+        <div class="header-sub">Visual Object Tracking &middot; 中英双语论文档案</div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav-bar"><a href="https://TAI-GG.github.io/cv-papers-archive/">主站·本周</a><a href="../index.html" class="current">目标跟踪</a><a href="../reports/index.html">历史报告</a><a href="../daily/index.html">归档索引</a></nav>
+</header>
+<div class="container">
+<div class='intro'><p><strong>Daily Digest / 每日速览：</strong>2026-10-03</p><p>当日新增视觉目标跟踪相关论文（来源：arXiv）。</p></div><div class='notice'><strong>注</strong>：Semantic Scholar 本次不可用（HTTP Error 429: ），本期仅含 arXiv 数据（该源为 best-effort，不影响完整性）。</div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>FFBL-Coop: Association-Decoupled Cooperative 3D Multi-Object Tracking</h3><div class='meta'>FFBL-Coop ：关联解耦协作3D多对象跟踪<br><a href='https://arxiv.org/abs/2610.01750' target='_blank' rel='noopener'>2610.01750</a> &middot; 2026-10-01 &middot; Haoxin Wu, Xiaokai Bai</div><div class='summary-en'><strong>[EN]</strong> Cooperative 3D tracking must integrate complementary observations across agents and time while maintaining consistent identities. When evidence integration and identity inheritance share a matching decision, errors arising from cross-view appearance differences and spatial misalignment can compromise both feature fusion and track continuity. We propose FFBL-Coop, a fuse first, bind later framework that separates instance admission from identity management. Confidence-ranked Slot Admission (CSA) allocates cooperative queries to available ego slots using confidence and spatial proximity. Unified Representation Aggregation (URA) uses cooperative semantic features and aligned anchors to guide ego-feature retrieval, refining the augmented query bank within a shared transformer decoder. After refinement, Cooperative-Priority Identity Anchoring (CPIA) combines learned association with persistent mappings to establish accepted identity assignments across frames. A shared codebook reduces transmitted payload while retaining AP and AMOTA close to the uncompressed variant. FFBL-Coop achieves AMOTA/AP of 0.611/0.548 on V2X-Seq and 0.688/0.653 on Griffin-25M. Code will be released.</div><div class='summary-cn'><strong>[中文]</strong> 协作 3D 跟踪必须整合跨代理和时间的互补观察，同时保持一致的身份。当证据集成和身份继承共享匹配决策时，跨视图外观差异和空间错位引起的错误可能会损害特征融合和轨迹连续性。我们提出 FFBL-Coop，一个先熔断后绑定的框架，它将实例准入与身份管理分开。置信度排序时隙准入 (CSA) 使用置信度和空间邻近度将协作查询分配给可用的自我时隙。统一表示聚合 (URA) 使用协作语义特征和对齐锚点来指导自我特征检索，从而在共享转换器解码器中完善增强查询库。经过细化后，合作优先身份锚定 (CPIA) 将学习到的关联与持久映射相结合，以跨帧建立可接受的身份分配。共享码本减少了传输的有效负载，同时保留 AP 和 AMOTA 接近未压缩的变体。 FFBL-Coop 在 V2X-Seq 上实现了 0.611/0.548 的 AMOTA/AP，在 Griffin-25M 上实现了 0.688/0.653 的 AMOTA/AP。代码将被发布。</div></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>Beyond Leaderboard Scores: A Deployment-Focused Protocol for Interpretable Tracking Evaluation in Pedestrian-Centric Environments</h3><div class='meta'>超越排行榜得分：在以行人为中心的环境中用于可解释跟踪评估的以部署为重点的协议<br><a href='https://arxiv.org/abs/2610.01682' target='_blank' rel='noopener'>2610.01682</a> &middot; 2026-10-01 &middot; Dominik Wojcikiewicz, Diego Paez-Granados</div><div class='summary-en'><strong>[EN]</strong> Mobile robots operating among pedestrians need trajectories that become available quickly, remain spatially credible through missed observations, preserve identity, and fit within an embedded computing budget. Aggregate tracking scores provide limited insight into when and how trajectories fail, while varying detector inputs can confound tracker and detector quality. We present a deployment-focused, tracker-only evaluation protocol that uses shared detections to isolate tracker behavior and directly evaluates initialization, detector-gap continuation, identity recovery, close-neighbor association, and load-dependent tracker-step runtime, while Higher Order Tracking Accuracy (HOTA) is retained as a complementary aggregate measure. We apply the protocol to the JackRabbot Dataset and Benchmark (JRDB) using six open-source trackers and our lightweight Pedestrian Reference Tracker (PedRefTrack), together with a GT-assisted variant that estimates the remaining tracker-side gap under idealized association and motion. Under fixed detections, the non-GT trackers span only 24.26%-29.67% HOTA yet exhibit markedly different capability profiles. After 1.0 s without detector support, no tracker without GT assistance maintains spatially correct, same-identity output in more than half of eligible cases, making missing-observation continuation the dominant limitation among the tested properties</div><div class='summary-cn'><strong>[中文]</strong> 在行人中运行的移动机器人需要快速可用的轨迹，通过错过的观察保持空间可信度，保留身份，并适合嵌入式计算预算。聚合跟踪分数对于轨迹何时以及如何失败的了解有限，而不同的检测器输入可能会混淆跟踪器和检测器的质量。我们提出了一种以部署为中心的、仅跟踪器的评估协议，该协议使用共享检测来隔离跟踪器行为，并直接评估初始化、检测器间隙延续、身份恢复、近邻关联和依赖于负载的跟踪器步骤运行时间，同时保留高阶跟踪精度（HOTA）作为补充聚合度量。我们使用六个开源跟踪器和我们的轻量级行人参考跟踪器 (PedRefTrack) 以及 GT 辅助变体，将该协议应用于 JackRabbot 数据集和基准 (JRDB)，该变体可估计理想化关联和运动下剩余的跟踪器侧间隙。在固定检测下，非 GT 跟踪器仅覆盖 24.26%-29.67% HOTA，但表现出明显不同的能力概况。在没有检测器支持的 1.0 秒后，没有 GT 辅助的跟踪器无法在超过一半的合格案例中保持空间正确、相同身份的输出，从而使得缺失观察延续成为测试属性中的主要限制</div></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>ARROW: Arbitrary Reconstruction and Tracking of 4D Observations in the Wild</h3><div class='meta'>箭头：野外4D观测的任意重建和跟踪<br><a href='https://arxiv.org/abs/2610.01314' target='_blank' rel='noopener'>2610.01314</a> &middot; 2026-10-01 &middot; Ilya Fradlin, Christian Schmidt, Jens Piekenbrinck, Karim Knaebel, Gonzalo Martin Garcia, Bastian Leibe</div><div class='summary-en'><strong>[EN]</strong> Dynamic scenes may be captured by a moving camera, multiple video streams, or images taken at different times. These observations reveal complementary aspects of scene geometry and motion, yet bringing them together requires establishing correspondence across viewpoints, capture times, and visibility changes. We introduce ARROW, a feed-forward model that unifies 3D reconstruction and 3D point tracking from arbitrary image sets. At its core is a novel order-invariant querying approach, which allows the association of queries with observations across arbitrary inputs. We show that exposing the model to more diverse sets of inputs during training results in improved task performance. Moreover, the resulting model is capable of generalization to a wider range of tasks including multi-view tracking. Trained with this strategy, ARROW establishes a new state of the art in 3D tracking on WorldTrack and TAPVid-3D and outperforms dedicated multi-view trackers on an adapted RGB-only MVTracker benchmark, while remaining competitive across 3D reconstruction tasks. Code and weights are publicly available.</div><div class='summary-cn'><strong>[中文]</strong> 动态场景可以通过移动摄像机、多个视频流或在不同时间拍摄的图像来捕获。这些观察揭示了场景几何和运动的互补方面，但将它们结合在一起需要在视点、捕获时间和可见性变化之间建立对应关系。我们引入了 ARROW，这是一种前馈模型，它统一了来自任意图像集的 3D 重建和 3D 点跟踪。其核心是一种新颖的顺序不变查询方法，该方法允许将查询与任意输入的观察结果关联起来。我们表明，在训练期间将模型暴露于更多样化的输入集可以提高任务性能。此外，所得模型能够推广到更广泛的任务，包括多视图跟踪。经过此策略的训练，ARROW 在 WorldTrack 和 TAPVid-3D 上建立了最新的 3D 跟踪技术，并在改编后的仅 RGB MVTracker 基准上优于专用多视图跟踪器，同时在 3D 重建任务中保持竞争力。代码和权重是公开的。</div></div><div class='paper'><span class='badge'>Single Object Tracking / 单目标跟踪</span><h3>iSEE: Object Permanence Through Self-Supervision</h3><div class='meta'>iSEE ：通过自我监督实现对象永久性<br><a href='https://arxiv.org/abs/2610.01201' target='_blank' rel='noopener'>2610.01201</a> &middot; 2026-10-01 &middot; Pramish Paudel, Ajad Chhatkuli, Luc Van Gool, Danda Pani Paudel</div><div class='summary-en'><strong>[EN]</strong> Object permanence, keeping track of an object&#x27;s identity and position while it is occluded, is central to video representations that track, predict and plan. Trackers that achieve it learn from boxes, track identities and visibility labels. On the other hand, self-supervised object-centric methods discover objects without labels: through slot attention, it represents a video as slots that bind to objects and follow them across frames. However, these slots are lost under occlusion, making the desired permanence impossible. Reasoning permanence is a hard problem because it requires to detect when an object becomes occluded, re-identify when object reappears, and keep the object&#x27;s hidden position continuous, using reapperance as the only learning cue. To address this, we propose iSEE, a novel framework that offers all three aforementioned requirements, without any labels whatsoever. We built iSEE using the following three proposed components: (i) Object evidence modelling: a slot&#x27;s attention, compared with its own past, reveals when its object is hidden. (ii) Appearance-position separation: two slot streams let the appearance be held for re-identification while the position keeps changing. (iii) Permanence from reappearance: a walker follows the hidden object&#x27;s position, trained only on where the object reappears. On LA-CATER static, iSEE returns a reappearing object to its own sl</div><div class='summary-cn'><strong>[中文]</strong> 对象持久性，即在对象被遮挡时跟踪对象的身份和位置，是跟踪、预测和计划的视频表示的核心。实现这一目标的跟踪器可以从盒子、跟踪身份和可见性标签中学习。另一方面，自监督的以对象为中心的方法发现没有标签的对象：通过槽注意，它将视频表示为绑定到对象并跨帧跟踪它们的槽。然而，这些槽会因遮挡而丢失，从而无法实现所需的持久性。推理持久性是一个难题，因为它需要检测对象何时被遮挡，重新识别对象何时重新出现，并保持对象的隐藏位置连续，使用重新出现作为唯一的学习线索。为了解决这个问题，我们提出了 iSEE，这是一种新颖的框架，可以提供上述所有三个要求，并且没有任何标签。我们使用以下三个提议的组件构建了 iSEE：（i）对象证据建模：槽位的注意力与它自己的过去相比，揭示了它的对象何时被隐藏。 (ii)外观-位置分离：两个时隙流让外观保持重新识别，而位置不断变化。(iii) 重现后的持久性：步行者跟随隐藏物体的位置，仅在物体重新出现的位置进行训练。在 LA-CATER static 上，iSEE 将重新出现的对象返回到其自己的 sl</div></div>
+</div>
+<footer class="footer">
+  数据来源：arXiv API &middot; 翻译：MyMemory &middot; 每日自动更新<br>
+  <a href="https://TAI-GG.github.io/cv-papers-archive/">返回 AI 资讯档案库（主站）</a>
+</footer>
+</body>
+</html>
