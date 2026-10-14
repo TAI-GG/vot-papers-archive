@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOT Weekly Report · 目标跟踪周报</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--primary:#0f766e;--primary-light:#14b8a6;--primary-bg:#f0fdfa;--accent:#0ea5e9;
+        --text:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--card-bg:#fff;--bg:#f8fafc}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);
+          border-bottom:1px solid var(--border)}
+  .header-inner{max-width:1080px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
+        display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0}
+  .header h1{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--accent));
+             -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .header-sub{font-size:12px;color:var(--text-secondary)}
+  .stats{display:flex;gap:18px;font-size:13px;color:var(--text-secondary)}
+  .stats strong{color:var(--text)}
+  .nav-bar{max-width:1080px;margin:0 auto;padding:10px 24px;display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--border)}
+  .nav-bar a{font-size:13px;font-weight:600;color:var(--text-secondary);text-decoration:none;padding:5px 14px;
+             border-radius:20px;background:#f1f5f9;transition:all .2s}
+  .nav-bar a:hover{color:var(--primary);background:var(--primary-bg)}
+  .nav-bar a.current{color:#fff;background:var(--primary)}
+  .container{max-width:1080px;margin:0 auto;padding:32px 24px}
+  .intro{background:var(--primary-bg);border:1px solid #ccfbf1;border-radius:12px;padding:18px 22px;margin-bottom:26px}
+  .intro p{font-size:14px;color:#134e4a;margin:4px 0}
+  h2{font-size:20px;margin:30px 0 14px;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px}
+  h3{font-size:16px;margin:22px 0 10px;color:var(--text)}
+  h4{font-size:14px;margin:16px 0 8px;color:var(--text-secondary)}
+  table.rpt-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:#fff;
+                  box-shadow:0 1px 3px rgba(0,0,0,.05);border-radius:10px;overflow:hidden}
+  table.rpt-table th,table.rpt-table td{border:1px solid var(--border);padding:9px 11px;text-align:left;vertical-align:top}
+  table.rpt-table th{background:var(--primary);color:#fff;font-weight:600}
+  table.rpt-table tr:nth-child(even){background:#f8fafc}
+  .paper{border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .paper h3{margin:0 0 6px}
+  .paper .meta{font-size:12px;color:var(--text-secondary);margin-bottom:8px}
+  .paper .meta a{color:var(--primary-light);text-decoration:none}
+  .summary-en{font-size:14px;color:var(--text);border-left:3px solid var(--accent);padding-left:12px;margin:8px 0}
+  .summary-cn{font-size:14px;color:#334155;border-left:3px solid var(--primary-light);padding-left:12px;margin:8px 0;background:#f0fdfa}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;
+         background:var(--primary-bg);color:var(--primary);margin-bottom:6px}
+  .footer{text-align:center;padding:36px 24px 50px;color:var(--text-secondary);font-size:13px;border-top:1px solid var(--border);margin-top:40px}
+  .footer a{color:var(--primary-light);text-decoration:none}
+  ul,ol{margin:8px 0 8px 22px}
+  blockquote{border-left:3px solid var(--primary);background:#f0fdfa;padding:8px 14px;margin:10px 0;color:#134e4a}
+  img{max-width:100%}
+  /* historical report timeline — main-site (CV) form */
+  .cover{text-align:center;margin:18px 0}
+  .cover img{max-width:420px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .theme-img{text-align:center;margin:10px 0 16px}
+  .theme-img img{max-width:100%;border-radius:10px}
+  .tl{position:relative;padding-left:42px;margin-top:8px}
+  .tl::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:#c7d2fe;border-radius:2px}
+  .tl-group{position:relative;margin-bottom:28px}
+  .tl-dot{position:absolute;left:-33px;top:4px;width:14px;height:14px;border-radius:50%;
+          background:#3b82f6;border:3px solid #fff;box-shadow:0 0 0 2px #3b82f6;z-index:2}
+  .tl-label{font-size:15px;font-weight:700;color:#1e40af;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .tl-label .mini-dot{width:8px;height:8px;border-radius:50%;background:#3b82f6}
+  .rcard{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px 22px;margin-bottom:14px;
+         box-shadow:0 1px 3px rgba(0,0,0,.06);opacity:0;transform:translateY(20px);
+         animation:fadeInUp .5s ease forwards;transition:all .3s ease}
+  .rcard:hover{box-shadow:0 10px 25px -5px rgba(0,0,0,.08);border-color:#3b82f6;transform:translateY(-2px)}
+  @keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}
+  .rcard-title{font-size:16px;font-weight:600;color:#1e293b;line-height:1.5;margin-bottom:4px}
+  .rcard-title a{color:inherit;text-decoration:none}
+  .rcard-title a:hover{color:#3b82f6}
+  .rcard-cn{font-size:14px;color:#475569;margin-bottom:8px}
+  .rcard-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:#64748b;margin-bottom:8px}
+  .rcard-badge{display:inline-flex;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;
+               background:#eff6ff;color:#1e40af;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rcard-sum{font-size:14px;color:#475569;line-height:1.7;margin-top:6px;padding-left:12px;border-left:3px solid #c7d2fe}
+  .rcard-sum.cn{border-left-color:#3b82f6;background:#f0fdfa}
+  .rcard-contrib{font-size:13px;color:#475569;margin:8px 0 0 18px}
+  .rcard-contrib li{margin:2px 0}
+  /* reports archive: content inlined, grouped by date */
+  .rpt-section{margin:8px 0}
+  .rpt-section-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;
+                    border-bottom:2px solid var(--primary);padding-bottom:6px;margin:30px 0 16px}
+  .rpt-section-head h2{margin:0;border:0;padding:0;color:var(--primary);font-size:19px}
+  .rpt-full{font-size:13px;font-weight:600;color:#fff;background:var(--primary);text-decoration:none;
+            padding:4px 14px;border-radius:20px;transition:all .2s;white-space:nowrap}
+  .rpt-full:hover{background:var(--accent)}
+  .rpt-sep{border:0;border-top:1px dashed var(--border);margin:34px 0}
+  .idx-list{list-style:none;padding:0;margin:12px 0;display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+  .idx-list li{border:1px solid var(--border);border-radius:10px;background:#fff;padding:10px 14px;
+               display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .idx-list a{font-weight:600;color:var(--primary);text-decoration:none}
+  .idx-list a:hover{text-decoration:underline}
+  .idx-n{font-size:12px;color:var(--text-secondary);white-space:nowrap}
+  .notice{border-left:4px solid #f59e0b;background:#fffbeb;border-radius:8px;
+          padding:12px 16px;margin:16px 0;color:#92400e;font-size:14px;line-height:1.7}
+  .notice.err{border-left-color:#ef4444;background:#fef2f2;color:#991b1b}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="logo">&#x1F3A5;</div>
+      <div>
+        <h1>视觉目标跟踪 · 论文专栏</h1>
+        <div class="header-sub">Visual Object Tracking &middot; 中英双语论文档案</div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav-bar"><a href="https://TAI-GG.github.io/cv-papers-archive/">主站·本周</a><a href="../index.html" class="current">目标跟踪</a><a href="../reports/index.html">历史报告</a><a href="../daily/index.html">归档索引</a></nav>
+</header>
+<div class="container">
+<div class='intro'><p><strong>Report Period / 报告周期：</strong>2026-10-07 ~ 2026-10-14</p><p><strong>Sources / 数据来源：</strong>arXiv (cs.CV) · Semantic Scholar (best-effort) · GitHub 精选列表 dwzhangzjnu/VOT 与 Zhangyong-Tang/Awesome-MultiModal-VOT (best-effort，仅收录新增)</p><p><strong>Generated / 生成日期：</strong>2026-10-14</p></div><div class='notice'><strong>注</strong>：Semantic Scholar 本次不可用（HTTP Error 429: ），本期仅含 arXiv 数据（该源为 best-effort，不影响完整性）。</div><h2>Paper Summary Table / 论文汇总表</h2><table class='rpt-table'><thead><tr><th>No.</th><th>Title (EN)</th><th>Title (CN)</th><th>Authors</th><th>Source</th><th>Category</th><th>Link</th></tr></thead><tbody><tr><td>1</td><td>UniMergeTrack: Hierarchical Model Merging for General RGB-X Visual Object Tracking</td><td>UniMergeTrack：用于通用 RGB-X 视觉对象跟踪的分层模型合并</td><td>Shiao Wang, Xiao Wang, Yuhe Ding, Jiarui Xu et al.</td><td>arXiv</td><td>Single Object Tracking / 单目标跟踪</td><td><a href='https://arxiv.org/abs/2610.13053' target='_blank' rel='noopener'>link</a></td></tr><tr><td>2</td><td>Failure-Resilient Multi-Robot Coordination with $k$-Connectivity Constrained Submodular Maximization</td><td>具有 $k$ 连接约束子模块最大化的故障弹性多机器人协调</td><td>Yoonjae Hwang, Hojune Kim, Ellen Novoseller, Guangyao Shi et al.</td><td>arXiv</td><td>Multimodal Tracking / 多模态跟踪</td><td><a href='https://arxiv.org/abs/2610.13049' target='_blank' rel='noopener'>link</a></td></tr><tr><td>3</td><td>Multimodal Image-based Robotic Assistance and Guidance Environment (MIRAGE): A Novel Unified Framework for Surgical Navigation and Visualization</td><td>基于图像的多模态机器人辅助和引导环境（MIRAGE）：一种用于手术导航和可视化的新型统一框架</td><td>Ehsan Nasiri, Yi Zheng, Michael A. Kokko, Xiaoyao Fan et al.</td><td>arXiv</td><td>3D / 4D Tracking / 三维/四维跟踪</td><td><a href='https://arxiv.org/abs/2610.12780' target='_blank' rel='noopener'>link</a></td></tr><tr><td>4</td><td>Continuous Ground-Truth Construction and a Recovery Policy for Air--Water Robotic Tracking</td><td>连续地面真实施工和空气回收政策--水机器人跟踪</td><td>Jiangong Xiao, Zhe Sun, Kanzhong Yao, Yuanbo Bi et al.</td><td>arXiv</td><td>Multi-Object Tracking / 多目标跟踪</td><td><a href='https://arxiv.org/abs/2610.11096' target='_blank' rel='noopener'>link</a></td></tr><tr><td>5</td><td>MOTIP2: Spatial Priors for End-to-End Multi-Object Tracking</td><td>MOTIP2 ：用于端到端多对象跟踪的空间先验</td><td>Benoît Roussel, Damien Bouet, Liming Chen, Pierre Perrault</td><td>arXiv</td><td>Multi-Object Tracking / 多目标跟踪</td><td><a href='https://arxiv.org/abs/2610.10391' target='_blank' rel='noopener'>link</a></td></tr></tbody></table><h2>Detailed Papers by Topic / 按主题分组的论文详情</h2><h3>Topic 1: Single Object Tracking / 单目标跟踪</h3><div class='paper'><span class='badge'>Single Object Tracking / 单目标跟踪</span><h3>UniMergeTrack: Hierarchical Model Merging for General RGB-X Visual Object Tracking</h3><div class='meta'>UniMergeTrack：用于通用 RGB-X 视觉对象跟踪的分层模型合并<br>arXiv: <a href='https://arxiv.org/abs/2610.13053' target='_blank' rel='noopener'>2610.13053</a> &middot; 2026-10-09 &middot; Shiao Wang, Xiao Wang, Yuhe Ding, Jiarui Xu, Zikang Yan, Bo Jiang</div><div class='summary-en'><strong>[EN]</strong> RGB-X tracking leverages complementary modalities, such as thermal infrared, event, or depth, to improve robustness under challenging conditions. Existing general-purpose RGB-X trackers typically follow two paradigms: independent task-specific training and joint training across modality combinations. However, the former suffers from knowledge isolation and model redundancy, while the latter introduces optimization interference across heterogeneous tasks. In this work, we present UniMergeTrack, a new model merging paradigm that preserves task-specific optimization while enabling effective cross-task knowledge integration. UniMergeTrack first trains modality-specific trackers independently and then performs hierarchical model merging. Specifically, transferable backbones are merged across RGB-X tasks via high-pass-filtered merging, and complemented by lightweight task-specific experts that preserve modality-specific cues. Tracking heads are merged within each task using optimal transport-guided channel alignment to mitigate hidden channel mismatch. A subsequent distribution alignment fine-tuning stage further improves compatibility between the unified backbone and task-specific heads. Extensive experiments on the LasHeR, RGBT234, VisEvent, VOT-RGBD22, COESOT, and CDTB benchmarks demonstrate that UniMergeTrack achieves state-of-the-art or competitive performance across RGB-Thermal</div><div class='summary-cn'><strong>[中文]</strong> RGB-X 跟踪利用热红外、事件或深度等互补模式来提高挑战性条件下的鲁棒性。现有的通用 RGB-X 跟踪器通常遵循两种范式：独立的特定任务训练和跨模态组合的联合训练。然而，前者存在知识隔离和模型冗余的问题，而后者则引入了跨异构任务的优化干扰。在这项工作中，我们提出了 UniMergeTrack，一种新的模型合并范例，它保留特定于任务的优化，同时实现有效的跨任务知识集成。 UniMergeTrack 首先独立训练特定于模态的跟踪器，然后执行分层模型合并。具体来说，可转移主干通过高通滤波合并跨 RGB-X 任务进行合并，并由保留特定模态线索的轻量级任务特定专家进行补充。使用最佳传输引导通道对齐将跟踪头合并到每个任务中，以减轻隐藏通道不匹配的情况。随后的分布对齐微调阶段进一步提高了统一主干和特定任务头之间的兼容性。对 LasHeR、RGBT234、VisEvent、VOT-RGBD22、COESOT 和 CDTB 基准的大量实验表明，UniMergeTrack 在 RGB-Thermal 中实现了最先进的或具有竞争力的性能</div></div><h3>Topic 2: Multimodal Tracking / 多模态跟踪</h3><div class='paper'><span class='badge'>Multimodal Tracking / 多模态跟踪</span><h3>Failure-Resilient Multi-Robot Coordination with $k$-Connectivity Constrained Submodular Maximization</h3><div class='meta'>具有 $k$ 连接约束子模块最大化的故障弹性多机器人协调<br>arXiv: <a href='https://arxiv.org/abs/2610.13049' target='_blank' rel='noopener'>2610.13049</a> &middot; 2026-10-09 &middot; Yoonjae Hwang, Hojune Kim, Ellen Novoseller, Guangyao Shi, Gaurav S. Sukhatme</div><div class='summary-en'><strong>[EN]</strong> Multi-robot coordination is essential in applications such as coverage, target tracking, and information gathering, where robots must jointly select actions to maximize team performance. Submodular maximization provides an effective framework for such coordination, and resilient variants further account for robot failures or adversarial removals. However, existing methods typically overlook the impact of robot loss on the communication network, which may disconnect the surviving team and prevent continued coordination. To address this issue, we introduce Resilient $k$-Connected Submodular Maximization, which jointly considers task performance, resilience, and communication connectivity. The resulting feasible family is not a matroid, preventing the direct application of classical curvature-greedy guarantees. We overcome this challenge through a Menger-based connectivity reduction, a connectivity-aware greedy algorithm with a feasibility-preserving fallback, and a new curvature-based analysis that captures the cost of enforcing connectivity through a single factor $ρ$. Our method achieves a worst-case post-failure objective within a factor of $[\max(1-ν_f(\mathcal{I}),h(N,β))]^2 ρ\frac{1}{κ_f}(1-e^{-κ_f})$ of the optimal connectivity-respecting resilient assignment, while recovering the classical unconstrained guarantee in the appropriate limits. Experiments on multi-robot targe</div><div class='summary-cn'><strong>[中文]</strong> 多机器人协调在覆盖、目标跟踪和信息收集等应用中至关重要，机器人必须共同选择行动以最大限度地提高团队绩效。子模块最大化为这种协调提供了有效的框架，而弹性变体进一步解释了机器人故障或对抗性移除。然而，现有的方法通常忽略了机器人丢失对通信网络的影响，这可能会断开幸存团队的连接并阻止持续的协调。为了解决这个问题，我们引入了弹性 $k$-Connected Submodular Maximization，它共同考虑任务性能、弹性和通信连接性。由此产生的可行族不是拟阵，从而阻止了经典曲率贪婪保证的直接应用。我们通过基于门格的连接减少、具有保留可行性回退的连接感知贪婪算法以及新的基于曲率的分析来克服这一挑战，该分析通过单个因素 $ρ$ 捕获强制连接的成本。我们的方法在最佳连接性弹性分配的 $[\max(1-ν_f(\mathcal{I}),h(N,β))]^2 ρ\frac{1}{κ_f}(1-e^{-κ_f})$ 因子内实现了最坏情况的故障后目标，同时在适当的限制内恢复了经典的无约束保证。多机器人目标实验</div></div><h3>Topic 3: 3D / 4D Tracking / 三维/四维跟踪</h3><div class='paper'><span class='badge'>3D / 4D Tracking / 三维/四维跟踪</span><h3>Multimodal Image-based Robotic Assistance and Guidance Environment (MIRAGE): A Novel Unified Framework for Surgical Navigation and Visualization</h3><div class='meta'>基于图像的多模态机器人辅助和引导环境（MIRAGE）：一种用于手术导航和可视化的新型统一框架<br>arXiv: <a href='https://arxiv.org/abs/2610.12780' target='_blank' rel='noopener'>2610.12780</a> &middot; 2026-10-08 &middot; Ehsan Nasiri, Yi Zheng, Michael A. Kokko, Xiaoyao Fan, William R. Warner, Keith D. Paulsen</div><div class='summary-en'><strong>[EN]</strong> This paper presents the computational architecture and quantitative preclinical evaluation of MIRAGE, a multimodal image-guided robotic surgery framework for real-time visualization and navigation. It integrates stereovision scene reconstruction, augmented-reality (AR) video overlay, quantified heads-up display (HUD) navigation, and intraoperative ultrasound within the da Vinci console&#x27;s TilePro display (Intuitive Surgical). Additional modules include optical/electromagnetic tracker registration, stereo calibration, fiducial rigid registration with RMSE feedback, and 3D point-cloud reconstruction. Video I/O and rendering run in a C++ backend, while a Python GUI coordinates calibration, registration, reconstruction, visualization, and user interaction through an in-process zero-copy binding layer. The framework formalizes spatial transforms, module states, and synchronization of heterogeneous video and tracking streams. Preoperative calibration uses synchronized checkerboard image pairs and optimization, with estimated intrinsics, extrinsics, and rectification reused intraoperatively. MIRAGE was validated in phantom experiments across da Vinci S, Si, Xi, and SP platforms. Across clinically relevant working distances, mean 3D reprojection error was 0.6mm, with best 0.1mm RMSE at 100mm on Xi. Results support MIRAGE as a preclinical technical-validation platform for accurate, respo</div><div class='summary-cn'><strong>[中文]</strong> 本文介绍了 MIRAGE 的计算架构和定量临床前评估，MIRAGE 是一种用于实时可视化和导航的多模态图像引导机器人手术框架。它在达芬奇控制台的 TilePro 显示器（直观手术）中集成了立体视觉场景重建、增强现实 (AR) 视频叠加、量化平视显示器 (HUD) 导航和术中超声。其他模块包括光学/电磁跟踪器配准、立体校准、带有 RMSE 反馈的基准刚性配准以及 3D 点云重建。视频 I/O 和渲染在 C++ 后端运行，而 Python GUI 通过进程内零拷贝绑定层协调校准、配准、重建、可视化和用户交互。该框架形式化了空间变换、模块状态以及异构视频和跟踪流的同步。术前校准使用同步棋盘图像对和优化，估计的内在因素、外在因素和校正在术中重复使用。 MIRAGE 在 da Vinci S、Si、Xi 和 SP 平台的模型实验中得到了验证。在临床相关工作距离上，平均 3D 重投影误差为 0.6 毫米，Xi 上 100 毫米处的最佳 RMSE 为 0.1 毫米。结果支持 MIRAGE 作为临床前技术验证平台，可实现准确、响应</div></div><h3>Topic 4: Multi-Object Tracking / 多目标跟踪</h3><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>Continuous Ground-Truth Construction and a Recovery Policy for Air--Water Robotic Tracking</h3><div class='meta'>连续地面真实施工和空气回收政策--水机器人跟踪<br>arXiv: <a href='https://arxiv.org/abs/2610.11096' target='_blank' rel='noopener'>2610.11096</a> &middot; 2026-10-08 &middot; Jiangong Xiao, Zhe Sun, Kanzhong Yao, Yuanbo Bi, Haofei Zhao, Ruixuan Hu</div><div class='summary-en'><strong>[EN]</strong> Visual tracking across the air-water interface is challenged by splashes, bubbles, refraction, reflections, and abrupt appearance changes that can temporarily invalidate observations. This setting poses two coupled difficulties: first, for evaluation, image-only annotation cannot reliably describe the target&#x27;s physical location during visual blindness; second, for online tracking, corrupted observations can contaminate motion estimates and appearance templates. We address the first difficulty with a construction pipeline that synchronizes camera frames with motion-capture poses, projects known target geometry, corrects underwater projection with a medium-gated residual, and subjects the annotations to manual review. This yields an evaluation-only cross-medium test set of 22,346 frames. We further introduce a Cross-Medium Recovery Policy (CMRP) centered on confidence-triggered template selection. It supplies MixFormerV2 with the fixed initial template, a window-best pre-trigger template, and a trigger-frame Kalman-guided image crop, together with their associated weights, without retraining the visual backbone. In the accuracy evaluation, CMRP achieves 49.90 Macro Success AUC, 2.95 points above MixFormerV2 Official. On selected cross-medium transition and occlusion-recovery intervals, CMRP increases MixFormerV2 tracking coverage from 47.91\% to 50.43\% relative to Official updat</div><div class='summary-cn'><strong>[中文]</strong> 通过空气-水界面的视觉跟踪受到飞溅、气泡、折射、反射和突然外观变化的挑战，这些变化可能会暂时使观测无效。这种设置带来了两个耦合的困难：首先，对于评估，仅图像注释无法可靠地描述视盲期间目标的物理位置；其次，对于在线跟踪，损坏的观测可能会污染运动估计和外观模板。我们通过建设管道解决了第一个难题，该管道使相机帧与运动捕捉姿势同步，投影已知的目标几何形状，使用中等门控残差校正水下投影，并对注释进行手动审核。这产生了22,346帧的仅评估跨媒体测试集。我们进一步引入了以置信触发模板选择为中心的跨介质恢复策略（ CMRP ）。它为MixFormerV2提供固定的初始模板、窗口最佳的预触发模板和触发帧卡尔曼引导的图像裁剪，以及它们的相关权重，而无需重新训练视觉主干。在准确性评估中， CMRP达到49.90宏观成功AUC ，比MixFormerV2 Official高2.95分。在选定的跨媒体转换和遮挡恢复间隔上， CMRP将MixFormerV2跟踪覆盖率相对于官方更新从47.91\ %提高到50.43\ %</div></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>MOTIP2: Spatial Priors for End-to-End Multi-Object Tracking</h3><div class='meta'>MOTIP2 ：用于端到端多对象跟踪的空间先验<br>arXiv: <a href='https://arxiv.org/abs/2610.10391' target='_blank' rel='noopener'>2610.10391</a> &middot; 2026-10-07 &middot; Benoît Roussel, Damien Bouet, Liming Chen, Pierre Perrault</div><div class='summary-en'><strong>[EN]</strong> End-to-end multi-object trackers have narrowed the gap with classical tracking-by-detection on association-difficult benchmarks. Yet they still make spatially implausible errors no classical tracker would, such as assigning one identity to objects on opposite sides of the frame. A model could learn to avoid them, but tracking annotations are scarce, so we encode spatial priors explicitly instead, while keeping inference fully end-to-end with no post-hoc association. We propose three spatial priors, at the data, loss, and representation stages. Spatial ID Switches bias trajectory permutations toward spatially overlapping objects, reducing the mismatch between training and inference confusions. Spatial ID Loss scales each identity&#x27;s penalty by its box distance, so a distant switch costs more than a nearby one. Spatial Anchor gives each track token its frame position, an explicit spatial cue for attention. We instantiate the three priors in MOTIP2, a tracker adapted from MOTIP and built on the real-time DEIM detection transformer. Trained without extra data, its main model, MOTIP2-L, sets a new state of the art: 73.4 HOTA on DanceTrack, 76.0 on SportsMOT, and 71.1 IDF1 on PersonPath22. MOTIP2 is a family of models spanning the speed-accuracy trade-off: a lighter model, MOTIP2-S, matches the original MOTIP at over 3x the speed, and MOTIP2-X reaches 74.8 HOTA on DanceTrack.</div><div class='summary-cn'><strong>[中文]</strong> 端到端多对象跟踪器已经缩小了与关联困难基准的经典逐检测跟踪的差距。然而，它们仍然会产生经典跟踪器无法实现的空间错误，例如将一个身份分配给框架相对两侧的物体。模型可以学会避免它们，但跟踪注释很少，因此我们显式编码空间先验，同时保持推理完全端到端，没有事后关联。我们在数据、损失和表示阶段提出了三个空间先验。空间ID切换将轨迹排列偏向空间重叠的对象，减少训练和推理混淆之间的不匹配。空间ID丢失会根据每个身份的盒子距离来调整其惩罚，因此远距离切换的成本高于附近的切换。Spatial Anchor为每个轨道标记提供其帧位置，这是一个明确的空间注意力提示。我们在MOTIP2中实例化了三个先验，这是一个从MOTIP改编而来的跟踪器，建立在实时DEIM检测变压器之上。在没有额外数据的情况下进行培训，其主模型MOTIP2-L奠定了新的先进水平： DanceTrack上的73.4 HOTA ， SportsMOT上的76.0和PersonPath22上的71.1 IDF1。MOTIP2是一个跨越速度精度权衡的型号系列：更轻的型号MOTIP2-S以超过3倍的速度匹配原始MOTIP ， MOTIP2-X在DanceTrack上达到74.8 HOTA。</div></div><h2>Category Distribution / 类别分布</h2><ul><li>Single Object Tracking / 单目标跟踪：1 篇</li><li>Multimodal Tracking / 多模态跟踪：1 篇</li><li>3D / 4D Tracking / 三维/四维跟踪：1 篇</li><li>Multi-Object Tracking / 多目标跟踪：2 篇</li></ul>
+</div>
+<footer class="footer">
+  数据来源：arXiv API · Semantic Scholar · GitHub 精选列表（dwzhangzjnu/VOT、Awesome-MultiModal-Visual-Object-Tracking） · GitHub curated lists (best-effort) &middot; 翻译：MyMemory &middot; 每日自动更新<br>
+  <a href="https://TAI-GG.github.io/cv-papers-archive/">返回 AI 资讯档案库（主站）</a>
+</footer>
+</body>
+</html>
