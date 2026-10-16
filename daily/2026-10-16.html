@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOT Daily Digest · 目标跟踪每日速览</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--primary:#0f766e;--primary-light:#14b8a6;--primary-bg:#f0fdfa;--accent:#0ea5e9;
+        --text:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--card-bg:#fff;--bg:#f8fafc}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);
+          border-bottom:1px solid var(--border)}
+  .header-inner{max-width:1080px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
+        display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0}
+  .header h1{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--accent));
+             -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .header-sub{font-size:12px;color:var(--text-secondary)}
+  .stats{display:flex;gap:18px;font-size:13px;color:var(--text-secondary)}
+  .stats strong{color:var(--text)}
+  .nav-bar{max-width:1080px;margin:0 auto;padding:10px 24px;display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--border)}
+  .nav-bar a{font-size:13px;font-weight:600;color:var(--text-secondary);text-decoration:none;padding:5px 14px;
+             border-radius:20px;background:#f1f5f9;transition:all .2s}
+  .nav-bar a:hover{color:var(--primary);background:var(--primary-bg)}
+  .nav-bar a.current{color:#fff;background:var(--primary)}
+  .container{max-width:1080px;margin:0 auto;padding:32px 24px}
+  .intro{background:var(--primary-bg);border:1px solid #ccfbf1;border-radius:12px;padding:18px 22px;margin-bottom:26px}
+  .intro p{font-size:14px;color:#134e4a;margin:4px 0}
+  h2{font-size:20px;margin:30px 0 14px;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px}
+  h3{font-size:16px;margin:22px 0 10px;color:var(--text)}
+  h4{font-size:14px;margin:16px 0 8px;color:var(--text-secondary)}
+  table.rpt-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:#fff;
+                  box-shadow:0 1px 3px rgba(0,0,0,.05);border-radius:10px;overflow:hidden}
+  table.rpt-table th,table.rpt-table td{border:1px solid var(--border);padding:9px 11px;text-align:left;vertical-align:top}
+  table.rpt-table th{background:var(--primary);color:#fff;font-weight:600}
+  table.rpt-table tr:nth-child(even){background:#f8fafc}
+  .paper{border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .paper h3{margin:0 0 6px}
+  .paper .meta{font-size:12px;color:var(--text-secondary);margin-bottom:8px}
+  .paper .meta a{color:var(--primary-light);text-decoration:none}
+  .summary-en{font-size:14px;color:var(--text);border-left:3px solid var(--accent);padding-left:12px;margin:8px 0}
+  .summary-cn{font-size:14px;color:#334155;border-left:3px solid var(--primary-light);padding-left:12px;margin:8px 0;background:#f0fdfa}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;
+         background:var(--primary-bg);color:var(--primary);margin-bottom:6px}
+  .footer{text-align:center;padding:36px 24px 50px;color:var(--text-secondary);font-size:13px;border-top:1px solid var(--border);margin-top:40px}
+  .footer a{color:var(--primary-light);text-decoration:none}
+  ul,ol{margin:8px 0 8px 22px}
+  blockquote{border-left:3px solid var(--primary);background:#f0fdfa;padding:8px 14px;margin:10px 0;color:#134e4a}
+  img{max-width:100%}
+  /* historical report timeline — main-site (CV) form */
+  .cover{text-align:center;margin:18px 0}
+  .cover img{max-width:420px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .theme-img{text-align:center;margin:10px 0 16px}
+  .theme-img img{max-width:100%;border-radius:10px}
+  .tl{position:relative;padding-left:42px;margin-top:8px}
+  .tl::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:#c7d2fe;border-radius:2px}
+  .tl-group{position:relative;margin-bottom:28px}
+  .tl-dot{position:absolute;left:-33px;top:4px;width:14px;height:14px;border-radius:50%;
+          background:#3b82f6;border:3px solid #fff;box-shadow:0 0 0 2px #3b82f6;z-index:2}
+  .tl-label{font-size:15px;font-weight:700;color:#1e40af;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .tl-label .mini-dot{width:8px;height:8px;border-radius:50%;background:#3b82f6}
+  .rcard{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px 22px;margin-bottom:14px;
+         box-shadow:0 1px 3px rgba(0,0,0,.06);opacity:0;transform:translateY(20px);
+         animation:fadeInUp .5s ease forwards;transition:all .3s ease}
+  .rcard:hover{box-shadow:0 10px 25px -5px rgba(0,0,0,.08);border-color:#3b82f6;transform:translateY(-2px)}
+  @keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}
+  .rcard-title{font-size:16px;font-weight:600;color:#1e293b;line-height:1.5;margin-bottom:4px}
+  .rcard-title a{color:inherit;text-decoration:none}
+  .rcard-title a:hover{color:#3b82f6}
+  .rcard-cn{font-size:14px;color:#475569;margin-bottom:8px}
+  .rcard-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:#64748b;margin-bottom:8px}
+  .rcard-badge{display:inline-flex;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;
+               background:#eff6ff;color:#1e40af;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rcard-sum{font-size:14px;color:#475569;line-height:1.7;margin-top:6px;padding-left:12px;border-left:3px solid #c7d2fe}
+  .rcard-sum.cn{border-left-color:#3b82f6;background:#f0fdfa}
+  .rcard-contrib{font-size:13px;color:#475569;margin:8px 0 0 18px}
+  .rcard-contrib li{margin:2px 0}
+  /* reports archive: content inlined, grouped by date */
+  .rpt-section{margin:8px 0}
+  .rpt-section-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;
+                    border-bottom:2px solid var(--primary);padding-bottom:6px;margin:30px 0 16px}
+  .rpt-section-head h2{margin:0;border:0;padding:0;color:var(--primary);font-size:19px}
+  .rpt-full{font-size:13px;font-weight:600;color:#fff;background:var(--primary);text-decoration:none;
+            padding:4px 14px;border-radius:20px;transition:all .2s;white-space:nowrap}
+  .rpt-full:hover{background:var(--accent)}
+  .rpt-sep{border:0;border-top:1px dashed var(--border);margin:34px 0}
+  .idx-list{list-style:none;padding:0;margin:12px 0;display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+  .idx-list li{border:1px solid var(--border);border-radius:10px;background:#fff;padding:10px 14px;
+               display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .idx-list a{font-weight:600;color:var(--primary);text-decoration:none}
+  .idx-list a:hover{text-decoration:underline}
+  .idx-n{font-size:12px;color:var(--text-secondary);white-space:nowrap}
+  .notice{border-left:4px solid #f59e0b;background:#fffbeb;border-radius:8px;
+          padding:12px 16px;margin:16px 0;color:#92400e;font-size:14px;line-height:1.7}
+  .notice.err{border-left-color:#ef4444;background:#fef2f2;color:#991b1b}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="logo">&#x1F3A5;</div>
+      <div>
+        <h1>视觉目标跟踪 · 论文专栏</h1>
+        <div class="header-sub">Visual Object Tracking &middot; 中英双语论文档案</div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav-bar"><a href="https://TAI-GG.github.io/cv-papers-archive/">主站·本周</a><a href="../index.html" class="current">目标跟踪</a><a href="../reports/index.html">历史报告</a><a href="../daily/index.html">归档索引</a></nav>
+</header>
+<div class="container">
+<div class='intro'><p><strong>Daily Digest / 每日速览：</strong>2026-10-16</p><p>当日新增视觉目标跟踪相关论文（来源：arXiv 及 GitHub 精选列表新增收录）。</p></div><div class='notice'><strong>注</strong>：Semantic Scholar 本次不可用（HTTP Error 429: ），本期仅含 arXiv 数据（该源为 best-effort，不影响完整性）。</div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>The Impact of Detector Architecture, Model Scale, and Scene Density on Multi-Pedestrian Tracking</h3><div class='meta'>探测器架构、模型规模和场景密度对多人跟踪的影响<br><a href='https://arxiv.org/abs/2610.19369' target='_blank' rel='noopener'>2610.19369</a> &middot; 2026-10-14 &middot; Pedro Manoel Herminio Alves, Dalton Cézane Gomes Valadares, Cláudio de Souza Baptista</div><div class='summary-en'><strong>[EN]</strong> Pedestrian tracking in video is important for applications such as surveillance and scene analysis, but it becomes more challenging in crowded scenarios with frequent occlusions and rapid motion. This paper analyzes how detector architecture, model scale, scene density, and inference regime affect the tracking of multiple pedestrians. We compare the YOLO11, RT-DETR, and YOLO26 detector families with the ByteTrack and BoT-SORT trackers on sequences from the MOT17, MOT20, and SOMPT22 benchmarks. For YOLO26, we also compare traditional overlap filtering via Non-Maximum Suppression (NMS) with end-to-end inference. The RT-DETR family achieved the highest mean scores on the HOTA tracking quality metric across all three benchmarks with both trackers, with a more pronounced advantage on MOT20, albeit at a higher computational cost. On MOT17 and SOMPT22, YOLO26 variants, especially YOLO26-L with NMS, offered favorable combinations of quality and speed compared with RT-DETR. In the YOLO26 inference comparison, the end-to-end mode did not yield consistent tracking gains over the NMS-based regime. Taken together, these results provide a practical guide for selecting detectors and trackers for this task based on application priorities.</div><div class='summary-cn'><strong>[中文]</strong> 视频中的行人跟踪对于监控和场景分析等应用非常重要，但在频繁遮挡和快速运动的拥挤场景中变得更具挑战性。本文分析了检测器架构、模型规模、场景密度和推理机制如何影响多个行人的跟踪。我们将 YOLO11、RT-DETR 和 YOLO26 检测器系列与 ByteTrack 和 BoT-SORT 跟踪器在 MOT17、MOT20 和 SOMPT22 基准测试的序列上进行比较。对于 YOLO26，我们还将通过非极大值抑制 (NMS) 的传统重叠过滤与端到端推理进行比较。RT-DETR 系列在两个跟踪器的所有三个基准测试中均取得了 HOTA 跟踪质量指标的最高平均分数，在 MOT20 上具有更明显的优势，尽管计算成本较高。在 MOT17 和 SOMPT22 上，YOLO26 变体，尤其是带有 NMS 的 YOLO26-L，与 RT-DETR 相比提供了良好的质量和速度组合。在 YOLO26 推理比较中，与基于 NMS 的机制相比，端到端模式没有产生一致的跟踪增益。总而言之，这些结果为根据应用优先级选择用于此任务的探测器和跟踪器提供了实用指南。</div></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>VLX-Go: Robust Embodied Tracking through Multi-Stage Learning and On-Policy Refinement</h3><div class='meta'>VLX-Go：通过多阶段学习和策略细化实现稳健的体现跟踪<br><a href='https://arxiv.org/abs/2610.19361' target='_blank' rel='noopener'>2610.19361</a> &middot; 2026-10-14 &middot; Kyusong Lee, Heting Ying, Tiancheng Zhao</div><div class='summary-en'><strong>[EN]</strong> Embodied visual tracking requires a robot to identify a designated target from visual observations and control its own motion to follow that target through an environment. Following an isolated person is a comparatively simple demonstration of embodied visual tracking, but following the intended person among distractors remains challenging. Existing methods exhibit a substantial drop in success from single-target to distractor tracking, motivating a focus on the shared spaces that person-following robots must navigate. We present \method{}, a vision--language waypoint policy built around the hypothesis that visual and language representations should be aligned before tracking-specific motion is learned. The policy combines complementary frozen visual encoders, multiscale temporal context, a transformer backbone, and a lightweight head for robot-centric waypoint prediction. Its training progresses through vision--language alignment, multimodal reasoning mid-training, and tracking specialization on 19,532 oracle episodes. Compared with 41.54\% distractor-tracking success for our earlier OmTrackVLA model, the complete multi-stage recipe achieves 55.80\%. We then explore on-policy refinement using filtered oracle labels for states visited by the policy. This preliminary study adds 2.42 percentage points of distractor-tracking success, reaching 58.22\%, while reducing collision rate</div><div class='summary-cn'><strong>[中文]</strong> 具身视觉跟踪要求机器人从视觉观察中识别指定目标，并控制自己的运动以在环境中跟踪该目标。跟踪一个孤立的人是具体视觉跟踪的一个相对简单的演示，但在干扰物中跟踪目标人仍然具有挑战性。现有方法从单一目标到干扰物跟踪的成功率大幅下降，促使人们关注跟随机器人必须导航的共享空间。我们提出了 \method{}，一种视觉-语言路径点策略，其假设是在学习跟踪特定运动之前应该对齐视觉和语言表示。该策略结合了互补的冻结视觉编码器、多尺度时间上下文、变压器骨干和用于以机器人为中心的路点预测的轻量级头部。它的训练通过视觉-语言对齐、训练中的多模态推理以及对 19,532 个预言集的跟踪专业化来进行。与我们早期的 OmTrackVLA 模型的 41.54\% 干扰跟踪成功率相比，完整的多阶段配方达到了 55.80\%。然后，我们使用过滤后的预言机标签来探索策略访问的状态的策略细化。这项初步研究将干扰物跟踪成功率提高了 2.42 个百分点，达到 58.22%，同时降低了碰撞率</div></div>
+</div>
+<footer class="footer">
+  数据来源：arXiv API · Semantic Scholar · GitHub 精选列表（dwzhangzjnu/VOT、Awesome-MultiModal-Visual-Object-Tracking） &middot; 翻译：MyMemory &middot; 每日自动更新<br>
+  <a href="https://TAI-GG.github.io/cv-papers-archive/">返回 AI 资讯档案库（主站）</a>
+</footer>
+</body>
+</html>
