@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOT Daily Digest · 目标跟踪每日速览</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--primary:#0f766e;--primary-light:#14b8a6;--primary-bg:#f0fdfa;--accent:#0ea5e9;
+        --text:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--card-bg:#fff;--bg:#f8fafc}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);
+          border-bottom:1px solid var(--border)}
+  .header-inner{max-width:1080px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
+        display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0}
+  .header h1{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--accent));
+             -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .header-sub{font-size:12px;color:var(--text-secondary)}
+  .stats{display:flex;gap:18px;font-size:13px;color:var(--text-secondary)}
+  .stats strong{color:var(--text)}
+  .nav-bar{max-width:1080px;margin:0 auto;padding:10px 24px;display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--border)}
+  .nav-bar a{font-size:13px;font-weight:600;color:var(--text-secondary);text-decoration:none;padding:5px 14px;
+             border-radius:20px;background:#f1f5f9;transition:all .2s}
+  .nav-bar a:hover{color:var(--primary);background:var(--primary-bg)}
+  .nav-bar a.current{color:#fff;background:var(--primary)}
+  .container{max-width:1080px;margin:0 auto;padding:32px 24px}
+  .intro{background:var(--primary-bg);border:1px solid #ccfbf1;border-radius:12px;padding:18px 22px;margin-bottom:26px}
+  .intro p{font-size:14px;color:#134e4a;margin:4px 0}
+  h2{font-size:20px;margin:30px 0 14px;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px}
+  h3{font-size:16px;margin:22px 0 10px;color:var(--text)}
+  h4{font-size:14px;margin:16px 0 8px;color:var(--text-secondary)}
+  table.rpt-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:#fff;
+                  box-shadow:0 1px 3px rgba(0,0,0,.05);border-radius:10px;overflow:hidden}
+  table.rpt-table th,table.rpt-table td{border:1px solid var(--border);padding:9px 11px;text-align:left;vertical-align:top}
+  table.rpt-table th{background:var(--primary);color:#fff;font-weight:600}
+  table.rpt-table tr:nth-child(even){background:#f8fafc}
+  .paper{border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .paper h3{margin:0 0 6px}
+  .paper .meta{font-size:12px;color:var(--text-secondary);margin-bottom:8px}
+  .paper .meta a{color:var(--primary-light);text-decoration:none}
+  .summary-en{font-size:14px;color:var(--text);border-left:3px solid var(--accent);padding-left:12px;margin:8px 0}
+  .summary-cn{font-size:14px;color:#334155;border-left:3px solid var(--primary-light);padding-left:12px;margin:8px 0;background:#f0fdfa}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;
+         background:var(--primary-bg);color:var(--primary);margin-bottom:6px}
+  .footer{text-align:center;padding:36px 24px 50px;color:var(--text-secondary);font-size:13px;border-top:1px solid var(--border);margin-top:40px}
+  .footer a{color:var(--primary-light);text-decoration:none}
+  ul,ol{margin:8px 0 8px 22px}
+  blockquote{border-left:3px solid var(--primary);background:#f0fdfa;padding:8px 14px;margin:10px 0;color:#134e4a}
+  img{max-width:100%}
+  /* historical report timeline — main-site (CV) form */
+  .cover{text-align:center;margin:18px 0}
+  .cover img{max-width:420px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .theme-img{text-align:center;margin:10px 0 16px}
+  .theme-img img{max-width:100%;border-radius:10px}
+  .tl{position:relative;padding-left:42px;margin-top:8px}
+  .tl::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:#c7d2fe;border-radius:2px}
+  .tl-group{position:relative;margin-bottom:28px}
+  .tl-dot{position:absolute;left:-33px;top:4px;width:14px;height:14px;border-radius:50%;
+          background:#3b82f6;border:3px solid #fff;box-shadow:0 0 0 2px #3b82f6;z-index:2}
+  .tl-label{font-size:15px;font-weight:700;color:#1e40af;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .tl-label .mini-dot{width:8px;height:8px;border-radius:50%;background:#3b82f6}
+  .rcard{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px 22px;margin-bottom:14px;
+         box-shadow:0 1px 3px rgba(0,0,0,.06);opacity:0;transform:translateY(20px);
+         animation:fadeInUp .5s ease forwards;transition:all .3s ease}
+  .rcard:hover{box-shadow:0 10px 25px -5px rgba(0,0,0,.08);border-color:#3b82f6;transform:translateY(-2px)}
+  @keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}
+  .rcard-title{font-size:16px;font-weight:600;color:#1e293b;line-height:1.5;margin-bottom:4px}
+  .rcard-title a{color:inherit;text-decoration:none}
+  .rcard-title a:hover{color:#3b82f6}
+  .rcard-cn{font-size:14px;color:#475569;margin-bottom:8px}
+  .rcard-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:#64748b;margin-bottom:8px}
+  .rcard-badge{display:inline-flex;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;
+               background:#eff6ff;color:#1e40af;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rcard-sum{font-size:14px;color:#475569;line-height:1.7;margin-top:6px;padding-left:12px;border-left:3px solid #c7d2fe}
+  .rcard-sum.cn{border-left-color:#3b82f6;background:#f0fdfa}
+  .rcard-contrib{font-size:13px;color:#475569;margin:8px 0 0 18px}
+  .rcard-contrib li{margin:2px 0}
+  /* reports archive: content inlined, grouped by date */
+  .rpt-section{margin:8px 0}
+  .rpt-section-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;
+                    border-bottom:2px solid var(--primary);padding-bottom:6px;margin:30px 0 16px}
+  .rpt-section-head h2{margin:0;border:0;padding:0;color:var(--primary);font-size:19px}
+  .rpt-full{font-size:13px;font-weight:600;color:#fff;background:var(--primary);text-decoration:none;
+            padding:4px 14px;border-radius:20px;transition:all .2s;white-space:nowrap}
+  .rpt-full:hover{background:var(--accent)}
+  .rpt-sep{border:0;border-top:1px dashed var(--border);margin:34px 0}
+  .idx-list{list-style:none;padding:0;margin:12px 0;display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+  .idx-list li{border:1px solid var(--border);border-radius:10px;background:#fff;padding:10px 14px;
+               display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .idx-list a{font-weight:600;color:var(--primary);text-decoration:none}
+  .idx-list a:hover{text-decoration:underline}
+  .idx-n{font-size:12px;color:var(--text-secondary);white-space:nowrap}
+  .notice{border-left:4px solid #f59e0b;background:#fffbeb;border-radius:8px;
+          padding:12px 16px;margin:16px 0;color:#92400e;font-size:14px;line-height:1.7}
+  .notice.err{border-left-color:#ef4444;background:#fef2f2;color:#991b1b}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="logo">&#x1F3A5;</div>
+      <div>
+        <h1>视觉目标跟踪 · 论文专栏</h1>
+        <div class="header-sub">Visual Object Tracking &middot; 中英双语论文档案</div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav-bar"><a href="https://TAI-GG.github.io/cv-papers-archive/">主站·本周</a><a href="../index.html" class="current">目标跟踪</a><a href="../reports/index.html">历史报告</a><a href="../daily/index.html">归档索引</a></nav>
+</header>
+<div class="container">
+<div class='intro'><p><strong>Daily Digest / 每日速览：</strong>2026-10-17</p><p>当日新增视觉目标跟踪相关论文（来源：arXiv 及 GitHub 精选列表新增收录）。</p></div><div class='notice'><strong>注</strong>：Semantic Scholar 本次不可用（HTTP Error 429: ），本期仅含 arXiv 数据（该源为 best-effort，不影响完整性）。</div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>ARC-SORT: Adaptive, Robust, Compensated Multi-Object Tracking with Interacting Multiple Models</h3><div class='meta'>ARC-SORT：具有交互多个模型的自适应、鲁棒、补偿多目标跟踪<br><a href='https://arxiv.org/abs/2610.22306' target='_blank' rel='noopener'>2610.22306</a> &middot; 2026-10-15 &middot; Girish Kumar Adari</div><div class='summary-en'><strong>[EN]</strong> Multi-object tracking in sports broadcasts is hard for two reasons: athletes move fast and change direction abruptly, and the camera pans and zooms at the same time. We present ARC-SORT (Adaptive, Robust, Compensated SORT), a tracking-by-detection tracker that trains nothing and runs in real time. Its design rule: the tracker measures its own uncertainty, and that measurement decides how it acts. An Interacting Multiple Model (IMM) Kalman filter gives every track a predictive covariance, and we turn it into a per-track search region: the less reliable the motion prediction, the larger the region in which a detection may match (uncertainty-adaptive Expansion IoU, EIoU). On identical inputs, this continuous coupling is what matters: the same covariance used as a hard Mahalanobis gate hurts at every threshold we swept, and richer covariance summaries add nothing measurable. When two tracks cross, the assignment cost itself reports whether the decision was close. ARC-SORT keeps such pairs under review and applies at most one corrective identity swap once post-crossing appearance evidence shows the first decision was wrong; this adds +1.0 HOTA (higher order tracking accuracy) on both the SportsMOT and DanceTrack test sets at under a millisecond per frame. For players who leave the frame for seconds, motion extrapolation carries no information, so our offline re-identification drops </div><div class='summary-cn'><strong>[中文]</strong> 体育转播中的多目标跟踪很困难，原因有两个：运动员快速移动并突然改变方向，以及摄像机同时平移和变焦。我们推出了 ARC-SORT（自适应、鲁棒、补偿排序），这是一种通过检测进行跟踪的跟踪器，不进行任何训练并且实时运行。它的设计规则是：跟踪器测量其自身的不确定性，并且该测量决定其行为。交互多模型 (IMM) 卡尔曼滤波器为每个轨迹提供预测协方差，我们将其转换为每个轨迹的搜索区域：运动预测越不可靠，检测可能匹配的区域就越大（不确定性自适应扩展 IoU、EIoU）。在相同的输入上，这种连续耦合才是最重要的：用作硬马哈拉诺比斯门的相同协方差在我们扫描的每个阈值上都会受到损害，并且更丰富的协方差摘要不会增加任何可测量的内容。当两条轨迹交叉时，分配成本本身会报告决策是否接近。ARC-SORT 会对此类配对进行审查，并在交叉后外观证据表明第一个决定是错误的情况下最多应用一次纠正性身份交换；这在 SportsMOT 和 DanceTrack 测试集上以每帧不到毫秒的速度增加了 +1.0 HOTA（更高阶跟踪精度）。对于离开画面几秒钟的玩家，运动推断不会携带任何信息，因此我们的离线重新识别率下降</div></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>VP-EVT: Active Visibility Preservation for Embodied Visual Tracking</h3><div class='meta'>VP-EVT：用于实体视觉跟踪的主动可见性保护<br><a href='https://arxiv.org/abs/2610.21999' target='_blank' rel='noopener'>2610.21999</a> &middot; 2026-10-15 &middot; Yanci Wen, Tianle Zeng, Jianwei Peng, Weixi Situ, Hanjing Ye, Hong Zhang</div><div class='summary-en'><strong>[EN]</strong> Embodied Visual Tracking (EVT) is an essential capability for intelligent robots in human-robot collaboration, requiring an agent to follow a designated target person in dynamic environments relying solely on egocentric visual perception. However, persistent pedestrian occlusions in dynamic scenes pose critical challenges to existing EVT methods. Lacking proactive visibility preservation, reactive tracking methods frequently experience prolonged target loss under severe occlusions. Therefore, we propose VP-EVT, a framework that treats target visibility as an explicit objective of motion control rather than a by-product of following. Acting on this objective requires understanding both what obstructs the target and how robot motion can change that obstruction. VP-EVT therefore uses language-guided perception to extract separate target and pedestrian observations. When occlusion makes current observations incomplete, VP-EVT combines visual history with ego-motion to maintain estimates of their relative positions and motion. Using these estimates and the current following waypoints, VP-EVT predicts whether continued following will sustain the obstruction. When the predicted risk is low, the original following motion is retained; otherwise, a recurrent controller combines updated estimates with maneuver context from preceding decisions to coordinate viewpoint adjustment and the ret</div><div class='summary-cn'><strong>[中文]</strong> 体现视觉跟踪（EVT）是智能机器人在人机协作中的一项基本能力，要求智能体仅依靠以自我为中心的视觉感知在动态环境中跟踪指定的目标人。然而，动态场景中持续存在的行人遮挡对现有的 EVT 方法提出了严峻的挑战。由于缺乏主动的可见性保护，反应式跟踪方法经常在严重遮挡的情况下经历长时间的目标丢失。因此，我们提出了 VP-EVT，一个将目标可见性视为运动控制的明确目标而不是跟随的副产品的框架。要实现这一目标，需要了解阻碍目标的因素以及机器人运动如何改变该障碍。因此，VP-EVT 使用语言引导的感知来提取单独的目标和行人观察结果。当遮挡导致当前观察不完整时，VP-EVT 会将视觉历史与自我运动结合起来，以维持对它们相对位置和运动的估计。使用这些估计值和当前跟随航路点，VP-EVT 可以预测继续跟随是否会维持障碍物。当预测风险较低时，保留原来的跟随运动；否则，循环控制器将更新的估计与先前决策的机动上下文相结合，以协调视点调整和 ret</div></div><div class='paper'><span class='badge'>Dataset &amp; Benchmark / 数据集与基准</span><h3>Bridging the Markerless Tracking Validation Gap: Intraoperative X-ray Workflow Integration</h3><div class='meta'>弥合无标记跟踪验证差距：术中 X 射线工作流程集成<br><a href='https://arxiv.org/abs/2610.21696' target='_blank' rel='noopener'>2610.21696</a> &middot; 2026-10-15 &middot; Connor Daly, Salvatore Russo, Jinendra Ekanayake, Daniel S. Elson, Ferdinando Rodriguez y Baena</div><div class='summary-en'><strong>[EN]</strong> Markerless intraoperative tracking of spinal anatomy via RGB-D sensors is a promising alternative to invasive bone-anchored fiducials, yet no existing clinical dataset provides independent subsurface ground truth for validating these methods. We address this gap with a clinically viable pipeline that derives per-vertebra 6-DoF pose from routine intraoperative C-arm fluoroscopy, co-registered to the RGB-D camera frame through a multimodal fiducial array detectable in both imaging modalities. Critically, the pipeline requires no additional radiation, instrumentation, or deviation from standard surgical workflows, relying solely on the fluoroscopic images already acquired during routine level checks. A calibrated transform chain links the vertebral pose recovered via multi-view 2D-3D CT-to-fluoroscopy registration to the RGB-D coordinate frame, enabling direct comparison of any markerless registration estimate against a subsurface reference. Ex vivo validation against optically tracked ovine vertebrae confirms end-to-end accuracy of 2.06 +- 0.29 mm and 3.35 +- 0.93 degrees, sufficient to serve as independent ground truth for methods with substantially larger errors. We demonstrate the pipeline&#x27;s utility by evaluating two markerless registration strategies on clinical data spanning 11 vertebrae across 1,500 frames from three surgical sequences: the first such evaluation against an </div><div class='summary-cn'><strong>[中文]</strong> 通过 RGB-D 传感器对脊柱解剖进行无标记术中跟踪是侵入性骨锚定基准的一种有前途的替代方案，但现有的临床数据集没有提供独立的地下真实数据来验证这些方法。我们通过临床上可行的管道解决了这一差距，该管道从常规术中 C 形臂透视中导出每个椎骨 6-DoF 姿势，并通过可在两种成像模式中检测到的多模态基准阵列共同配准到 RGB-D 相机框架。至关重要的是，该管道不需要额外的辐射、仪器或偏离标准手术工作流程，仅依赖于常规液位检查期间已获取的荧光镜图像。校准的变换链将通过多视图 2D-3D CT 到透视配准恢复的椎体姿态链接到 RGB-D 坐标系，从而能够将任何无标记配准估计与地下参考进行直接比较。针对光学跟踪绵羊椎骨的离体验证证实，端到端精度为 2.06 ± 0.29 毫米和 3.35 ± 0.93 度，足以作为误差大得多的方法的独立基础事实。我们通过评估来自三个手术序列的 1,500 个帧中 11 个椎骨的临床数据的两种无标记配准策略来展示该流程的实用性：这是针对</div></div>
+</div>
+<footer class="footer">
+  数据来源：arXiv API · Semantic Scholar · GitHub 精选列表（dwzhangzjnu/VOT、Awesome-MultiModal-Visual-Object-Tracking） &middot; 翻译：MyMemory &middot; 每日自动更新<br>
+  <a href="https://TAI-GG.github.io/cv-papers-archive/">返回 AI 资讯档案库（主站）</a>
+</footer>
+</body>
+</html>
