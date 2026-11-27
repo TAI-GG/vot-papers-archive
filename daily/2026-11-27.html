@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOT Daily Digest · 目标跟踪每日速览</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--primary:#0f766e;--primary-light:#14b8a6;--primary-bg:#f0fdfa;--accent:#0ea5e9;
+        --text:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--card-bg:#fff;--bg:#f8fafc}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);
+          border-bottom:1px solid var(--border)}
+  .header-inner{max-width:1080px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
+        display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0}
+  .header h1{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--accent));
+             -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .header-sub{font-size:12px;color:var(--text-secondary)}
+  .stats{display:flex;gap:18px;font-size:13px;color:var(--text-secondary)}
+  .stats strong{color:var(--text)}
+  .nav-bar{max-width:1080px;margin:0 auto;padding:10px 24px;display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--border)}
+  .nav-bar a{font-size:13px;font-weight:600;color:var(--text-secondary);text-decoration:none;padding:5px 14px;
+             border-radius:20px;background:#f1f5f9;transition:all .2s}
+  .nav-bar a:hover{color:var(--primary);background:var(--primary-bg)}
+  .nav-bar a.current{color:#fff;background:var(--primary)}
+  .container{max-width:1080px;margin:0 auto;padding:32px 24px}
+  .intro{background:var(--primary-bg);border:1px solid #ccfbf1;border-radius:12px;padding:18px 22px;margin-bottom:26px}
+  .intro p{font-size:14px;color:#134e4a;margin:4px 0}
+  h2{font-size:20px;margin:30px 0 14px;color:var(--primary);border-left:4px solid var(--primary);padding-left:10px}
+  h3{font-size:16px;margin:22px 0 10px;color:var(--text)}
+  h4{font-size:14px;margin:16px 0 8px;color:var(--text-secondary)}
+  table.rpt-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:#fff;
+                  box-shadow:0 1px 3px rgba(0,0,0,.05);border-radius:10px;overflow:hidden}
+  table.rpt-table th,table.rpt-table td{border:1px solid var(--border);padding:9px 11px;text-align:left;vertical-align:top}
+  table.rpt-table th{background:var(--primary);color:#fff;font-weight:600}
+  table.rpt-table tr:nth-child(even){background:#f8fafc}
+  .paper{border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .paper h3{margin:0 0 6px}
+  .paper .meta{font-size:12px;color:var(--text-secondary);margin-bottom:8px}
+  .paper .meta a{color:var(--primary-light);text-decoration:none}
+  .summary-en{font-size:14px;color:var(--text);border-left:3px solid var(--accent);padding-left:12px;margin:8px 0}
+  .summary-cn{font-size:14px;color:#334155;border-left:3px solid var(--primary-light);padding-left:12px;margin:8px 0;background:#f0fdfa}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;
+         background:var(--primary-bg);color:var(--primary);margin-bottom:6px}
+  .footer{text-align:center;padding:36px 24px 50px;color:var(--text-secondary);font-size:13px;border-top:1px solid var(--border);margin-top:40px}
+  .footer a{color:var(--primary-light);text-decoration:none}
+  ul,ol{margin:8px 0 8px 22px}
+  blockquote{border-left:3px solid var(--primary);background:#f0fdfa;padding:8px 14px;margin:10px 0;color:#134e4a}
+  img{max-width:100%}
+  /* historical report timeline — main-site (CV) form */
+  .cover{text-align:center;margin:18px 0}
+  .cover img{max-width:420px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .theme-img{text-align:center;margin:10px 0 16px}
+  .theme-img img{max-width:100%;border-radius:10px}
+  .tl{position:relative;padding-left:42px;margin-top:8px}
+  .tl::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:#c7d2fe;border-radius:2px}
+  .tl-group{position:relative;margin-bottom:28px}
+  .tl-dot{position:absolute;left:-33px;top:4px;width:14px;height:14px;border-radius:50%;
+          background:#3b82f6;border:3px solid #fff;box-shadow:0 0 0 2px #3b82f6;z-index:2}
+  .tl-label{font-size:15px;font-weight:700;color:#1e40af;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .tl-label .mini-dot{width:8px;height:8px;border-radius:50%;background:#3b82f6}
+  .rcard{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px 22px;margin-bottom:14px;
+         box-shadow:0 1px 3px rgba(0,0,0,.06);opacity:0;transform:translateY(20px);
+         animation:fadeInUp .5s ease forwards;transition:all .3s ease}
+  .rcard:hover{box-shadow:0 10px 25px -5px rgba(0,0,0,.08);border-color:#3b82f6;transform:translateY(-2px)}
+  @keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}
+  .rcard-title{font-size:16px;font-weight:600;color:#1e293b;line-height:1.5;margin-bottom:4px}
+  .rcard-title a{color:inherit;text-decoration:none}
+  .rcard-title a:hover{color:#3b82f6}
+  .rcard-cn{font-size:14px;color:#475569;margin-bottom:8px}
+  .rcard-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:#64748b;margin-bottom:8px}
+  .rcard-badge{display:inline-flex;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;
+               background:#eff6ff;color:#1e40af;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rcard-sum{font-size:14px;color:#475569;line-height:1.7;margin-top:6px;padding-left:12px;border-left:3px solid #c7d2fe}
+  .rcard-sum.cn{border-left-color:#3b82f6;background:#f0fdfa}
+  .rcard-contrib{font-size:13px;color:#475569;margin:8px 0 0 18px}
+  .rcard-contrib li{margin:2px 0}
+  /* reports archive: content inlined, grouped by date */
+  .rpt-section{margin:8px 0}
+  .rpt-section-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;
+                    border-bottom:2px solid var(--primary);padding-bottom:6px;margin:30px 0 16px}
+  .rpt-section-head h2{margin:0;border:0;padding:0;color:var(--primary);font-size:19px}
+  .rpt-full{font-size:13px;font-weight:600;color:#fff;background:var(--primary);text-decoration:none;
+            padding:4px 14px;border-radius:20px;transition:all .2s;white-space:nowrap}
+  .rpt-full:hover{background:var(--accent)}
+  .rpt-sep{border:0;border-top:1px dashed var(--border);margin:34px 0}
+  .idx-list{list-style:none;padding:0;margin:12px 0;display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+  .idx-list li{border:1px solid var(--border);border-radius:10px;background:#fff;padding:10px 14px;
+               display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .idx-list a{font-weight:600;color:var(--primary);text-decoration:none}
+  .idx-list a:hover{text-decoration:underline}
+  .idx-n{font-size:12px;color:var(--text-secondary);white-space:nowrap}
+  .notice{border-left:4px solid #f59e0b;background:#fffbeb;border-radius:8px;
+          padding:12px 16px;margin:16px 0;color:#92400e;font-size:14px;line-height:1.7}
+  .notice.err{border-left-color:#ef4444;background:#fef2f2;color:#991b1b}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="logo">&#x1F3A5;</div>
+      <div>
+        <h1>视觉目标跟踪 · 论文专栏</h1>
+        <div class="header-sub">Visual Object Tracking &middot; 中英双语论文档案</div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav-bar"><a href="https://TAI-GG.github.io/cv-papers-archive/">主站·本周</a><a href="../index.html" class="current">目标跟踪</a><a href="../reports/index.html">历史报告</a><a href="../daily/index.html">归档索引</a></nav>
+</header>
+<div class="container">
+<div class='intro'><p><strong>Daily Digest / 每日速览：</strong>2026-11-27</p><p>当日新增视觉目标跟踪相关论文（来源：arXiv 及 GitHub 精选列表新增收录）。</p></div><div class='notice'><strong>注</strong>：Semantic Scholar 本次不可用（HTTP Error 429: ），本期仅含 arXiv 数据（该源为 best-effort，不影响完整性）。</div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>Towards 360$^\circ$ Embodied UAV Tracking Without Turning</h3><div class='meta'>迈向360$^\circ$ 体现无人机不转弯跟踪<br><a href='https://arxiv.org/abs/2611.33934' target='_blank' rel='noopener'>2611.33934</a> &middot; 2026-11-27 &middot; Li, Bingyu</div><div class='summary-en'><strong>[EN]</strong> Conventional embodied UAV tracking couples target observability with heading control because targets may leave the field of view of forward-facing cameras. We investigate a complementary paradigm that uses full-spherical perception to follow designated targets without active heading adjustment. To support this setting, we introduce 360UAV-ETrack, a simulation benchmark comprising 2,652 sequences, over 1.73 million synchronized observations, eight tracking tasks, and 150 held-out closed-loop scenarios. We propose 360UAV-TVLA, a panoramic vision--language--action (VLA) framework integrating persistent visual referring (PVR), compressed temporal memory (CTM), and geometry-aligned trajectory supervision (GTS) for instance identification, motion reasoning, and three-dimensional control. Experiments across two VLA backbones show consistent gains over standard fine-tuning, with normalized average tracking frames increasing from 22.56\% to 35.28\% for $π_0$ and from 25.68\% to 33.64\% for $π_{0.5}$. Our benchmark further reveals a substantial gap between offline imitation accuracy and closed-loop tracking reliability, establishing a challenging testbed for future research https://libingyu01.github.io/360UAV-ETrack_360UAV-TVLA/</div><div class='summary-cn'><strong>[中文]</strong> 传统的无人机跟踪将目标可观测性与航向控制结合起来，因为目标可能会离开前置摄像头的视野。我们研究了一种补充范例，该范例使用全球形感知来跟踪指定目标，而无需主动调整航向。为了支持这一设置，我们引入了 360UAV-ETrack，这是一个模拟基准，包含 2,652 个序列、超过 173 万个同步观测、8 个跟踪任务和 150 个保留闭环场景。我们提出了 360UAV-TVLA，这是一种全景视觉-语言-动作（VLA）框架，集成了持久视觉参考（PVR）、压缩时间记忆（CTM）和几何对齐轨迹监督（GTS），例如识别、运动推理和三维控制。两个 VLA 主干网的实验显示，与标准微调相比，获得了一致的增益，$π_0$ 的标准化平均跟踪帧从 22.56\% 增加到 35.28\%，$π_{0.5}$ 的标准化平均跟踪帧从 25.68\% 增加到 33.64\%。我们的基准进一步揭示了离线模仿精度和闭环跟踪可靠性之间的巨大差距，为未来的研究建立了一个具有挑战性的测试平台https://libingyu01.github.io/360UAV-ETrack_360UAV-TVLA/</div></div><div class='paper'><span class='badge'>Single Object Tracking / 单目标跟踪</span><h3>TaCo: Rethinking Correlation for Visual Tracking on Edge Devices</h3><div class='meta'>TaCo：重新思考边缘设备上视觉跟踪的相关性<br><a href='https://arxiv.org/abs/2611.34084' target='_blank' rel='noopener'>2611.34084</a> &middot; 2026-11-25 &middot; Qingmao Wei, Fagui Liu, Quan Tang</div><div class='summary-en'><strong>[EN]</strong> Lightweight trackers have replaced cross-correlation with attention, and on low-power edge hardware they pay for it, since memory-bound softmax, normalization and reshaping operators of attention cost far more time than their arithmetic suggests. Benchmarking efficient trackers on an edge Neural Processing Unit (NPU) and an Arm CPU under one numerically validated protocol, we find that correlation trackers are the fast ones, but they lag in accuracy unless they adopt a ViT backbone, which brings attention back. We revisit what correlation lacks. Template--search interaction serves two roles: conditioning the search features on the target and matching them against it spatially. Attention does both, whereas correlation only matches, and does so on features extracted without knowledge of the target. We present TaCo (Target-aligned Correlation), which supplies the missing conditioning without attention by letting the template enter the per-frame network only as operands computed once per video. A descriptor of the target scales and shifts the search features channel by channel inside the backbone, and kernels aligned with the target box, each with a weight predicted from the template, correlate with them in one matrix product. With the backbone fixed, our correlation remains essential while incurring negligible NPU overhead, offering a better speed-accuracy trade-off than the atten</div><div class='summary-cn'><strong>[中文]</strong> 轻量级跟踪器已经用注意力取代了互相关，并且在低功耗边缘硬件上它们为此付出了代价，因为受内存限制的 softmax、注意力的标准化和重塑运算符花费的时间远远超过其算术显示的时间。在一种经过数值验证的协议下，对边缘神经处理单元 (NPU) 和 Arm CPU 上的高效跟踪器进行基准测试，我们发现相关跟踪器速度最快，但它们在准确性方面落后，除非它们采用 ViT 主干网，从而重新引起人们的注意。我们重新审视缺乏相关性的地方。模板-搜索交互有两个作用：调节目标上的搜索特征并将其与目标进行空间匹配。注意力机制两者兼而有之，而相关性只匹配，并且在不了解目标的情况下提取特征。我们提出了 TaCo（目标对齐相关性），它通过让模板仅作为每个视频计算一次的操作数进入每帧网络来提供缺失的调节，而无需注意。目标的描述符在骨干网内逐个通道地缩放和移动搜索特征，并且与目标框对齐的内核（每个内核具有从模板预测的权重）在一个矩阵乘积中与它们相关联。在主干固定的情况下，我们的相关性仍然很重要，同时产生的 NPU 开销可以忽略不计，与 atten 相比，提供了更好的速度与准确度权衡</div></div><div class='paper'><span class='badge'>Multi-Object Tracking / 多目标跟踪</span><h3>Recall4D: Forgetting, Not Misalignment, Limits Long-Horizon Feed-Forward 4D Reconstruction</h3><div class='meta'>Recall4D：遗忘而非错位限制了长视野前馈 4D 重建<br><a href='https://arxiv.org/abs/2611.33655' target='_blank' rel='noopener'>2611.33655</a> &middot; 2026-11-25 &middot; Tianle Lyu</div><div class='summary-en'><strong>[EN]</strong> Feed-forward 4D trackers recover camera motion, depth, and point trajectories from short video clips, but chaining windows over long videos degrades their accuracy. We find that replacing inter-window alignment with ground-truth transforms leaves tracking error essentially unchanged. Static-point error instead grows with time since last observation: repeatedly predicting a static point from windows that no longer observe it corrupts previously recovered geometry. We call this failure forgetting. Merely retaining the last observed positions of unseen points reduces error by 26% on PointOdyssey without modifying the tracker. We introduce Recall4D, a training-free framework that augments a frozen tracker with a persistent world state and sparse motion anchors. Static points retain their world-space positions outside the camera view and are refined by averaging observations decoded at sparse keyframes while in view. For dynamic objects, the tracker decodes sparse representative anchors, while geometric skinning propagates their displacements to dense queries. Across two long-horizon benchmarks, Recall4D improves the accuracy of its backbone while running 7.6-9.0$\times$ faster, and its accuracy gains carry over to five further backbones and three other long-sequence tasks, demonstrating its generality.</div><div class='summary-cn'><strong>[中文]</strong> 前馈 4D 跟踪器可以从短视频剪辑中恢复相机运动、深度和点轨迹，但长视频上的链接窗口会降低其准确性。我们发现，用真实变换替换窗口间对齐使得跟踪误差基本上保持不变。相反，自上次观察以来，静态点误差随着时间的推移而增长：从不再观察静态点的窗口中重复预测静态点会破坏之前恢复的几何图形。我们称之为失败遗忘。仅保留未见点的最后观察位置即可在 PointOdyssey 上减少 26% 的误差，而无需修改跟踪器。我们引入了 Recall4D，这是一个免训练的框架，它通过持久的世界状态和稀疏的运动锚来增强冻结的跟踪器。静态点保留其在摄像机视图之外的世界空间位置，并通过对视图中稀疏关键帧解码的观测值进行平均来进行细化。对于动态对象，跟踪器对稀疏代表性锚点进行解码，而几何蒙皮将其位移传播到密集查询。在两个长范围基准测试中，Recall4D 提高了其骨干网的准确性，同时运行速度提高了 7.6-9.0$\times$，并且其准确性的提高还适用于另外五个骨干网和其他三个长序列任务，这证明了其通用性。</div></div>
+</div>
+<footer class="footer">
+  数据来源：arXiv API · Semantic Scholar · GitHub 精选列表（dwzhangzjnu/VOT、Awesome-MultiModal-Visual-Object-Tracking） &middot; 翻译：MyMemory &middot; 每日自动更新<br>
+  <a href="https://TAI-GG.github.io/cv-papers-archive/">返回 AI 资讯档案库（主站）</a>
+</footer>
+</body>
+</html>
